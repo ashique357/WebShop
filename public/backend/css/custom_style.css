@@ -1,0 +1,114 @@
+td a.btn {
+    padding: 0px 7px;
+}
+
+td a.btn i {
+    font-size: 14px;
+    color: #fff;
+}
+
+.table td, .table th {
+    padding: 3px 15px;
+}
+thead tr {
+    background: #f3f3f3;
+}
+.add_new_button, .add_new_button i{
+    color: #FFF !important;
+}
+
+.form-control {
+    /*height: 33px;*/
+    border-radius: 2px;
+}
+.logo_loader_image {
+    height: 68px !important;
+}
+ul.pagination{
+    float: right !important;
+}
+
+.small_button {
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.page_content_wrap {
+    padding: 3.125em 0;
+    background: #FFF !important;
+}
+.page_top_wrap .breadcrumbs a.breadcrumbs_item {
+    background: #ddd;
+}
+
+/*product details*/
+.modal .product_details_wrapper .product_info .product_title{
+    font-size: 16px;
+}
+.modal .product_details_wrapper .product_info .fas{
+    font-size: 14px;
+}
+
+
+.tree, .tree ul {
+    margin:0;
+    padding:0;
+    list-style:none
+}
+.tree ul {
+    margin-left:1em;
+    position:relative
+}
+.tree ul ul {
+    margin-left:.5em
+}
+.tree ul:before {
+    content:"";
+    display:block;
+    width:0;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    border-left:1px solid
+}
+.tree li {
+    margin:0;
+    padding:0 1em;
+    line-height:2em;
+    color:#369;
+    font-weight:700;
+    position:relative
+}
+.tree ul li:before {
+    content:"";
+    display:block;
+    width:10px;
+    height:0;
+    border-top:1px solid;
+    margin-top:-1px;
+    position:absolute;
+    top:1em;
+    left:0
+}
+.tree ul li:last-child:before {
+    background:#fff;
+    height:auto;
+    top:1em;
+    bottom:0
+}
+.indicator {
+    margin-right:5px;
+}
+.tree li a {
+    text-decoration: none;
+    color:#369;
+}
+.tree li button, .tree li button:active, .tree li button:focus {
+    text-decoration: none;
+    color:#369;
+    border:none;
+    background:transparent;
+    margin:0px 0px 0px 0px;
+    padding:0px 0px 0px 0px;
+    outline: 0;
+}
