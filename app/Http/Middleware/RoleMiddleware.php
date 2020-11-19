@@ -35,7 +35,8 @@ class RoleMiddleware
                 }
                 
                 if($permission !== null && !Auth::guard('admin')->user()->accessUrl($role,$permission)) {  
-                    abort(404);
+                    // abort(404);
+                    abort(403, 'Unauthorized access');
                 }   
                 return $next($request);
             }

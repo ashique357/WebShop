@@ -4,7 +4,7 @@ window.Vue = require('vue');
 import axios from 'axios'
 
 const base = axios.create({
-    baseURL: 'https://remak3.com/WebShop'
+    // baseURL: 'https://remak3.com/WebShop'
   });
   
 Vue.prototype.$http = base;

@@ -34,11 +34,11 @@ export default{
         }
     },
     created() {
-        // this.getData();
-        // this.getAllRoles();
-        // this.getAllPermission();
-        // this.getAllPermissionAsMenu();
-        // this.getAllCategories();
+        this.getData();
+        this.getAllRoles();
+        this.getAllPermission();
+        this.getAllPermissionAsMenu();
+        this.getAllCategories();
         },
     computed:{
         filteredData() {
@@ -75,7 +75,8 @@ export default{
         
         paginatedData() {
             return this.paginate(this.filteredData, this.length, this.pagination.currentPage);
-        }
+        },
+
     },
     methods:{
         paginate(array, length, pageNumber) {
