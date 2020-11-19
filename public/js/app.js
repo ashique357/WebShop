@@ -64576,7 +64576,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$http = axios__WEBPACK_IMPORTED_MODULE_0___default.a;
+var base = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: 'https://remak3.com/WebShop'
+});
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$http = base;
 
 
 
@@ -65036,18 +65039,18 @@ __webpack_require__.r(__webpack_exports__);
       categories: []
     };
   },
-  created: function created() {
-    this.getData();
-    this.getAllRoles();
-    this.getAllPermission();
-    this.getAllPermissionAsMenu();
-    this.getAllCategories();
+  created: function created() {// this.getData();
+    // this.getAllRoles();
+    // this.getAllPermission();
+    // this.getAllPermissionAsMenu();
+    // this.getAllCategories();
   },
   computed: {
     filteredData: function filteredData() {
       var _this = this;
 
       var data = this.data;
+      console.log(data);
 
       if (this.search) {
         data = data.filter(function (row) {
@@ -65114,6 +65117,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.data = response.data; // console.log(this.data);
 
+        console.log(_this2.pagination.total);
         _this2.pagination.total = _this2.data.length;
       })["catch"](function (errors) {
         console.log(errors);
@@ -65124,8 +65128,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var modalId = "#editModal";
       this.$http.post(UpdateURL, data).then(function (response) {
-        console.log(response.data);
-
+        // console.log(response.data);    
         _this3.closeModal(modalId);
 
         console.log(_this3.successSweetAlert());
@@ -65196,8 +65199,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/get-all-permissions-menu";
       this.$http.post(URL).then(function (resp) {
-        _this6.permissionMenu = resp.data.permission;
-        console.log(resp.data.permission);
+        _this6.permissionMenu = resp.data.permission; // console.log(resp.data.permission);
       })["catch"](function (errors) {
         console.log(errors);
       });
@@ -65207,8 +65209,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/get-all-categories";
       this.$http.post(URL).then(function (resp) {
-        _this7.categories = resp.data.categories;
-        console.log(resp.data.categories);
+        _this7.categories = resp.data.categories; // console.log(resp.data.categories);
       })["catch"](function (errors) {
         console.log(errors);
       });

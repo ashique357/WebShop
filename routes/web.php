@@ -18,9 +18,14 @@ Route::prefix('admin')->middleware(['AdminAuthCheck','role'])->group(function ()
     Route::get('/category','CategoryController@index')->name('category.index');
 });
 
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    $exitCode = Artisan::call('config:clear');
+    $exitCode = Artisan::call('cache:clear');
+    return 'DONE'; 
+});
 
 Route::get('/create-dummy-admin', 'Auth\AdminLoginController@DatanbaseTest');
-Route::get('/create-dummy-role', 'Auth\AdminLoginController@roleCreate');
 
 Route::get('/admin/{any}', function () {
     return view('Backend.index');

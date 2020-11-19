@@ -3,7 +3,11 @@ require('./bootstrap');
 window.Vue = require('vue');
 import axios from 'axios'
 
-Vue.prototype.$http = axios
+const base = axios.create({
+    baseURL: 'https://remak3.com/WebShop'
+  });
+  
+Vue.prototype.$http = base;
 
 import Vue from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';

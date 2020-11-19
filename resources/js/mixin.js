@@ -34,15 +34,16 @@ export default{
         }
     },
     created() {
-        this.getData();
-        this.getAllRoles();
-        this.getAllPermission();
-        this.getAllPermissionAsMenu();
-        this.getAllCategories();
+        // this.getData();
+        // this.getAllRoles();
+        // this.getAllPermission();
+        // this.getAllPermissionAsMenu();
+        // this.getAllCategories();
         },
     computed:{
         filteredData() {
             let data = this.data;
+            console.log(data);
             if (this.search) {
             data = data.filter((row) => {
                 return Object.keys(row).some((key) => {
@@ -103,6 +104,7 @@ export default{
             .then(response => {
                 this.data = response.data;
                 // console.log(this.data);
+                console.log(this.pagination.total);
                 this.pagination.total = this.data.length;
             })
             .catch(errors => {
@@ -114,7 +116,7 @@ export default{
             var modalId="#editModal";
             this.$http.post(UpdateURL,data)
             .then(response=>{
-                console.log(response.data);    
+                // console.log(response.data);    
                 this.closeModal(modalId);
                 console.log(this.successSweetAlert());
                 this.SuccessToaster();
@@ -190,7 +192,7 @@ export default{
             this.$http.post(URL)
             .then(resp=>{
                 this.permissionMenu=resp.data.permission;
-                console.log(resp.data.permission);
+                // console.log(resp.data.permission);
             })
             .catch(errors=>{
                 console.log(errors);
@@ -201,7 +203,7 @@ export default{
             this.$http.post(URL)
             .then(resp=>{
                 this.categories=resp.data.categories;
-                console.log(resp.data.categories);
+                // console.log(resp.data.categories);
             })
             .catch(errors=>{
                 console.log(errors);
