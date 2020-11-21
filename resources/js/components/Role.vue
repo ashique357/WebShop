@@ -269,6 +269,10 @@
 <script>
 import mixin from '../mixin'
 
+const INDEX_URL="/api/admin/role/index";
+const STORE_URL="/api/admin/role/store";
+const UPDATE_URL="/api/admin/role/update";
+
 export default {
     mixins: [mixin],
     data(){
@@ -295,11 +299,11 @@ export default {
     },
     methods: {
       getRoleData() {
-        this.getData("/api/get-roles");
+        this.getData(INDEX_URL);
       },
       updateRole(data) {
         data.permission=this.permission;
-        this.updateData("/api/role-update",data);
+        this.updateData(UPDATE_URL,data);
       },
 
       createRole(store) {
@@ -308,7 +312,7 @@ export default {
         this.store.status=store.status;
         this.store.slug=store.slug;
         this.store.permission=store.permission;
-        this.$http.post("/api/role-create",this.store)
+        this.$http.post(STORE_URL,this.store)
           .then(response=>{
                 this.closeModal("#createModal");
                 this.successSweetAlert();

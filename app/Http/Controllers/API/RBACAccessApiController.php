@@ -126,9 +126,7 @@ class RBACAccessApiController extends Controller
             $role->slug=$request->input('slug');
             $role->description=$request->input('description');
             $role->update();
-            foreach($request->permission as $p){
-                $role->permissions()->sync($request->permission);
-            }
+            $role->permissions()->sync($request->permission);
             return response()->json('successfully updated',200);            
         }
         else{
@@ -143,9 +141,9 @@ class RBACAccessApiController extends Controller
         $role->status=$request->input('status');
         $role->slug=$request->input('slug');
         $role->save();
-        foreach($request->permission as $p){
-            $role->permissions()->sync($request->permission);
-        }
+        $role->permissions()->sync($request->permission);
+        // $role->admins()->where('role_id',$role->id)->get();
+        // echo $role;
         return response()->json('successfully saved',200);            
     }
 

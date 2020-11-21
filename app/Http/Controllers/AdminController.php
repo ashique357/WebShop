@@ -28,29 +28,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        // $user=Auth::guard('admin')->user()->id;
-        // $totalQuery=$this->admin->where('id',$user)->where('status',1)->with(['roles'=>function($query){
-        //     $query->where('status',1);},
-        //     'permissions'=>function($query){
-        //         $query->where('status',1);
-        //     }
-        //     ])->first();
-        //     $menus=array(
-        //         array()
-        //     );
-        //     foreach($totalQuery->permissions as $menu){
-        //         $menus=array(
-        //             array(
-        //             'name'=>$menu->name,
-        //             'slug'=>$menu->slug,
-        //             'has_child'=>$menu->has_child,
-        //             'parent_id'=>$menu->parent_id,
-        //             'type'=>$menu->type
-        //         ),
-        //         );
-        //     }
-            
+    {       
         return view('Backend.Pages.RBACAccess.Admins.index');
     }
 
@@ -72,17 +50,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        // // $validate = Validator::make($input, $model->validationRules($input));
-        // $input = $request->all();
-        // $input['password'] = Hash::make($input['password']);
 
-
-        // $admin = $this->admin->create($input);
-        // $admin->assignRole($request->input('roles'));
-
-
-        return redirect()->route('Backend.Pages.RBACAccess.Admins.index')
-                        ->with('success','Admin created successfully');
     }
 
     /**
@@ -93,8 +61,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $admin = $this->admin->find($id);
-        return view('Backend.Pages.RBACAccess.Admins.edit')->with('admin',$admin);
+
     }
 
     /**
@@ -105,9 +72,6 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        // $admin = $this->admin->find($id);
-        // $roles = $this->role->pluck('name','name')->all();
-        // $adminRole = $admin->roles->pluck('name','name')->all();
         return view('Backend.Pages.RBACAccess.Admins.edit')->with(['admin'=>$admin,'roles'=>$roles,'adminRole'=>$adminRole]);
     }
 
@@ -120,29 +84,6 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:admins,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
-
-
-        $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = array_except($input,array('password'));    
-        }
-
-        // $admin = $this->admin->find($id);
-        // $admin->update($input);
-        // DB::table('model_has_roles')->where('model_id',$id)->delete();
-
-        // $admin->assignRole($request->input('roles'));
-
-        return redirect()->route('admin.index')
-                        ->with('success','Admin updated successfully');
 
     }
 
@@ -154,8 +95,5 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $this->admin->find($id)->delete();
-        return redirect()->route('admin.index')
-                        ->with('success','Admin deleted successfully');
     }
 }

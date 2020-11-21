@@ -137,17 +137,9 @@ export default{
         storeData(StoreUrl,data){
             this.$http.post(StoreUrl,data)
             .then(response=>{
-                // this.closeModal("#createModal");
-                // this.successSweetAlert();
-                // this.SuccessToaster();
-                // this.reload();
             })
             .catch(error=>{
                 console.log(error.message);
-                // this.closeModal("#createModal");
-                // this.failedSweetAlert();
-                // this.FailedToaster();
-                // this.reload();
             })
         },
 
@@ -169,7 +161,7 @@ export default{
             this.show=data;
         },
 
-        getAllRoles(URL="/api/get-all-roles"){
+        getAllRoles(URL="/api/admin/get-all-roles"){
             this.$http.post(URL)
             .then(resp=>{
                 this.adminRole=resp.data.data;
@@ -179,7 +171,7 @@ export default{
             })
         },
 
-        getAllPermission(URL="/api/get-all-permissions-old"){
+        getAllPermission(URL="/api/admin/get-all-permissions-old"){
             this.$http.post(URL)
             .then(resp=>{
                 this.adminPermission=resp.data.data;
@@ -189,7 +181,7 @@ export default{
             })
         },
 
-        getAllPermissionAsMenu(URL="/api/get-all-permissions-menu"){
+        getAllPermissionAsMenu(URL="/api/admin/get-all-permissions-menu"){
             this.$http.post(URL)
             .then(resp=>{
                 this.permissionMenu=resp.data.permission;
@@ -200,7 +192,7 @@ export default{
             })
         },
 
-        getAllCategories(URL="/api/get-all-categories"){
+        getAllCategories(URL="/api/admin/get-all-categories"){
             this.$http.post(URL)
             .then(resp=>{
                 this.categories=resp.data.categories;

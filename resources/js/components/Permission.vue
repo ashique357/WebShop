@@ -264,6 +264,10 @@
 <script>
 import mixin from '../mixin'
 
+const INDEX_URL="/api/admin/permission/index";
+const STORE_URL="/api/admin/permission/store";
+const UPDATE_URL="/api/admin/permission/update";
+
 export default {
     mixins: [mixin],
     data(){
@@ -288,10 +292,10 @@ export default {
     },
     methods: {
       getPermissionData() {
-        this.getData("/api/get-permissions");
+        this.getData(INDEX_URL);
       },
       updatePermission(data) {
-        this.updateData("/api/permission-update",data);
+        this.updateData(UPDATE_URL,data);
       },
 
       createPermission(store) {
@@ -301,7 +305,7 @@ export default {
         this.store.slug=store.slug;
         this.store.parent_id=store.parent_id;
         this.store.type=store.type;
-        this.$http.post("/api/permission-create",this.store)
+        this.$http.post(STORE_URL,this.store)
           .then(response=>{
                 this.closeModal("#createModal");
                 this.successSweetAlert();

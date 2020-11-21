@@ -272,6 +272,11 @@
 <script>
 import mixin from '../mixin'
 
+
+const INDEX_URL="/api/admin/category/index";
+const STORE_URL="/api/admin/category/store";
+const UPDATE_URL="/api/admin/category/update";
+
 export default {
     mixins: [mixin],
     data(){
@@ -297,10 +302,10 @@ export default {
     },
     methods: {
       getCategoryData() {
-        this.getData("/api/get-categories");
+        this.getData(INDEX_URL);
       },
       updateCategory(data) {
-        this.updateData("/api/category-update",data);
+        this.updateData(UPDATE_URL,data);
       },
 
       createCategory(store) {
@@ -309,7 +314,7 @@ export default {
         this.store.parent_id=store.parent_id;
         this.store.status=store.status;
          this.store.type=store.type;
-        this.$http.post("/api/category-create",this.store)
+        this.$http.post(STORE_URL,this.store)
           .then(response=>{
                 this.closeModal("#createModal");
                 this.successSweetAlert();

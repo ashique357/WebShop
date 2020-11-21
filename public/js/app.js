@@ -2189,6 +2189,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+var INDEX_URL = "/api/admin/user/index";
+var STORE_URL = "/api/admin/user/store";
+var UPDATE_URL = "/api/admin/user/update";
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
@@ -2226,10 +2229,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getUSerData: function getUSerData() {
-      this.getData("/api/get-users");
+      this.getData(INDEX_URL);
     },
     updateUser: function updateUser(data) {
-      this.updateData("/api/user-update", data);
+      this.updateData(UPDATE_URL, data);
     },
     createUser: function createUser(store) {
       var _this = this;
@@ -2240,7 +2243,7 @@ __webpack_require__.r(__webpack_exports__);
       this.store.password = store.password;
       this.store.role = store.role;
       this.store.status = store.status;
-      this.$http.post("/api/user-create", this.store).then(function (response) {
+      this.$http.post(STORE_URL, this.store).then(function (response) {
         _this.closeModal("#createModal");
 
         _this.successSweetAlert();
@@ -2550,6 +2553,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+var INDEX_URL = "/api/admin/category/index";
+var STORE_URL = "/api/admin/category/store";
+var UPDATE_URL = "/api/admin/category/update";
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
@@ -2586,10 +2592,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getCategoryData: function getCategoryData() {
-      this.getData("/api/get-categories");
+      this.getData(INDEX_URL);
     },
     updateCategory: function updateCategory(data) {
-      this.updateData("/api/category-update", data);
+      this.updateData(UPDATE_URL, data);
     },
     createCategory: function createCategory(store) {
       var _this = this;
@@ -2599,7 +2605,7 @@ __webpack_require__.r(__webpack_exports__);
       this.store.parent_id = store.parent_id;
       this.store.status = store.status;
       this.store.type = store.type;
-      this.$http.post("/api/category-create", this.store).then(function (response) {
+      this.$http.post(STORE_URL, this.store).then(function (response) {
         _this.closeModal("#createModal");
 
         _this.successSweetAlert();
@@ -2901,6 +2907,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+var INDEX_URL = "/api/admin/permission/index";
+var STORE_URL = "/api/admin/permission/store";
+var UPDATE_URL = "/api/admin/permission/update";
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
@@ -2934,10 +2943,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPermissionData: function getPermissionData() {
-      this.getData("/api/get-permissions");
+      this.getData(INDEX_URL);
     },
     updatePermission: function updatePermission(data) {
-      this.updateData("/api/permission-update", data);
+      this.updateData(UPDATE_URL, data);
     },
     createPermission: function createPermission(store) {
       var _this = this;
@@ -2948,7 +2957,7 @@ __webpack_require__.r(__webpack_exports__);
       this.store.slug = store.slug;
       this.store.parent_id = store.parent_id;
       this.store.type = store.type;
-      this.$http.post("/api/permission-create", this.store).then(function (response) {
+      this.$http.post(STORE_URL, this.store).then(function (response) {
         _this.closeModal("#createModal");
 
         _this.successSweetAlert();
@@ -3255,6 +3264,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+var INDEX_URL = "/api/admin/role/index";
+var STORE_URL = "/api/admin/role/store";
+var UPDATE_URL = "/api/admin/role/update";
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
@@ -3289,11 +3301,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getRoleData: function getRoleData() {
-      this.getData("/api/get-roles");
+      this.getData(INDEX_URL);
     },
     updateRole: function updateRole(data) {
       data.permission = this.permission;
-      this.updateData("/api/role-update", data);
+      this.updateData(UPDATE_URL, data);
     },
     createRole: function createRole(store) {
       var _this = this;
@@ -3303,7 +3315,7 @@ __webpack_require__.r(__webpack_exports__);
       this.store.status = store.status;
       this.store.slug = store.slug;
       this.store.permission = store.permission;
-      this.$http.post("/api/role-create", this.store).then(function (response) {
+      this.$http.post(STORE_URL, this.store).then(function (response) {
         _this.closeModal("#createModal");
 
         _this.successSweetAlert();
@@ -65125,15 +65137,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     storeData: function storeData(StoreUrl, data) {
-      this.$http.post(StoreUrl, data).then(function (response) {// this.closeModal("#createModal");
-        // this.successSweetAlert();
-        // this.SuccessToaster();
-        // this.reload();
-      })["catch"](function (error) {
-        console.log(error.message); // this.closeModal("#createModal");
-        // this.failedSweetAlert();
-        // this.FailedToaster();
-        // this.reload();
+      this.$http.post(StoreUrl, data).then(function (response) {})["catch"](function (error) {
+        console.log(error.message);
       });
     },
     openModal: function openModal(modalId) {
@@ -65153,7 +65158,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllRoles: function getAllRoles() {
       var _this4 = this;
 
-      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/get-all-roles";
+      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/admin/get-all-roles";
       this.$http.post(URL).then(function (resp) {
         _this4.adminRole = resp.data.data;
       })["catch"](function (errors) {
@@ -65163,7 +65168,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllPermission: function getAllPermission() {
       var _this5 = this;
 
-      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/get-all-permissions-old";
+      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/admin/get-all-permissions-old";
       this.$http.post(URL).then(function (resp) {
         _this5.adminPermission = resp.data.data;
       })["catch"](function (errors) {
@@ -65173,7 +65178,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllPermissionAsMenu: function getAllPermissionAsMenu() {
       var _this6 = this;
 
-      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/get-all-permissions-menu";
+      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/admin/get-all-permissions-menu";
       this.$http.post(URL).then(function (resp) {
         _this6.permissionMenu = resp.data.permission; // console.log(resp.data.permission);
       })["catch"](function (errors) {
@@ -65183,7 +65188,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllCategories: function getAllCategories() {
       var _this7 = this;
 
-      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/get-all-categories";
+      var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/admin/get-all-categories";
       this.$http.post(URL).then(function (resp) {
         _this7.categories = resp.data.categories; // console.log(resp.data.categories);
       })["catch"](function (errors) {

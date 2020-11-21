@@ -280,6 +280,9 @@
 <script>
 import mixin from '../mixin'
 
+const INDEX_URL="/api/admin/user/index";
+const STORE_URL="/api/admin/user/store";
+const UPDATE_URL="/api/admin/user/update";
 export default {
     mixins: [mixin],
     data(){
@@ -306,10 +309,10 @@ export default {
     },
     methods: {
       getUSerData() {
-        this.getData("/api/get-users");
+        this.getData(INDEX_URL);
       },
       updateUser(data) {
-        this.updateData("/api/user-update",data);
+        this.updateData(UPDATE_URL,data);
       },
 
       createUser(store) {
@@ -319,7 +322,7 @@ export default {
         this.store.password=store.password;
         this.store.role=store.role;
         this.store.status=store.status;
-        this.$http.post("/api/user-create",this.store)
+        this.$http.post(STORE_URL,this.store)
           .then(response=>{
                 this.closeModal("#createModal");
                 this.successSweetAlert();

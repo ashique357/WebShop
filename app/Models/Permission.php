@@ -27,6 +27,10 @@ class Permission extends Model
       return $this->hasMany('App\Models\Permission','parent_id','id') ;
    }
 
+   public function parents() {
+      return $this->hasMany('App\Models\Permission','id','parent_id') ;
+   }
+
      public function getAllPermissions(){
          $data = Permission::pluck('name','id')->all();
      }

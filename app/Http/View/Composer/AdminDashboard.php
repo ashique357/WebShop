@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-
+use DB;
 
 class AdminDashboard{
 
@@ -17,14 +17,16 @@ class AdminDashboard{
             return redirect()->guest('login'); 
         }
         else{
+
         $totalQuery=Admin::where('id',$user->id)->where('status',1)->with(['roles'=>function($query){
             $query->where('status',1);},
             'permissions'=>function($query){
-                $query->where('parent_id',0);
+                //  $query->where('parent_id',0);
             }
             ])->first();
             $menus=[];
             $i=0;
+
             if($totalQuery != null){
                 foreach($totalQuery->permissions as $menu){
                     $menus[] = [
@@ -34,11 +36,13 @@ class AdminDashboard{
                         'parent_id'=>$menu->parent_id,
                         'has_child'=>$menu->has_child,
                         'relations'=>$menu->childs,
+                        'parents'=>$menu->parents,
                     ];   
                 }
+
             }
             else{
-                abort(403, 'Unauthorized access');
+                abort(403, 'Unauthorized action');
             }
             
         $view->with('menus',$menus);
