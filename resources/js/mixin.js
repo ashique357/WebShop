@@ -76,6 +76,11 @@ export default{
             return this.paginate(this.filteredData, this.length, this.pagination.currentPage);
         },
 
+        getStatus(val){
+            if(val ==1) return "Active";
+            else if (val ==2) return "Inactive";
+        }
+
     },
     methods:{
         paginate(array, length, pageNumber) {

@@ -54,7 +54,7 @@
                            <td>{{user.name}}</td>
                            <td>{{user.email}}</td>
                            <td>{{user.phone}}</td>
-                           <td>{{user.status}}</td>
+                           <td>{{getStatus(user.status)}}</td>
                            <td><li v-for="(role,index_1) in user.roles" :key="index_1">
                               {{index_1+1}}.{{role.name}}
                               </li></td>
@@ -348,6 +348,9 @@ export default {
 
     created(){
         this.getUSerData()
+    },
+    computed:{
+       
     }
 
 };

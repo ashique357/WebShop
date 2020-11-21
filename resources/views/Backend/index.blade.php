@@ -9,7 +9,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
       <!-- Main Content -->
-      <div id="content">
+      <div id="content" id="app">
 
       @include('Backend.Layouts.nav')
 

@@ -19,30 +19,35 @@
     <span>Dashboard</span></a>
 </li>
 
-@foreach($menus as $menu)
-    @if((count($menu['relations']) ==0) AND ($menu['parent_id'] ==0))
-      <li class="nav-item active">
-        <a class="nav-link" href="{{env('APP_URL')}}{{$menu['slug']}}">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>{{$menu['name']}}</span></a>
-      </li>
-      
-      @elseif((count($menu['relations']) > 0) AND ($menu['parent_id'] == 0))
-      <li class="nav-item">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse{{$menu['id']}}" aria-expanded="true" aria-controls="collapse{{$menu['id']}}">
-            <i class="fas fa-wrench"></i>
-            <span>{{$menu['name']}}</span>
-          </a>
-          @if(count($menu['relations']) >0 )
-            <div id="collapse{{$menu['id']}}" class="collapse" aria-labelledby="heading{{$menu['id']}}" data-parent="#accordionSidebar">
-              <div class="bg-white py-2 collapse-inner rounded">    
-                  @include('Backend.Layouts.submenu',['childs' => $menu['relations']])
-                </div>
-            </div>
-          @endif
-      </li>
+  @foreach($menus as $key=>$menu)
+  <li class="nav-item">
+  @if($menu['childs'] == null && $menu['parent_id'] == 0)
+      <a class="nav-link" href="{{env('APP_URL')}}{{$menu['slug']}}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>{{$menu['name']}}</span>
+      </a>
     @endif
-@endforeach
+
+    @if($menu['childs'] != null)
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapseTwo{{$key}}">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>{{$menu['childs']['name']}}</span>
+        </a>
+        <div id="collapse{{$key}}" class="collapse" aria-labelledby="heading{{$key}}" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              @if($menu['childs'] != null)
+                @foreach($menu['childs']['menu'] as $submenu)
+                <span>   
+                  <a  class="collapse-item" href="{{env('APP_URL')}}{{$submenu['slug']}}">{{$submenu['name'] }}</a>
+                </span>
+                @endforeach
+              @endif
+            </div>
+        </div>
+      
+    @endif
+</li>
+  @endforeach
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
@@ -51,5 +56,6 @@
 <div class="text-center d-none d-md-inline">
   <button class="rounded-circle border-0" id="sidebarToggle"></button>
 </div>
+
 </ul>
 <!-- End of Sidebar -->

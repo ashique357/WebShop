@@ -2271,7 +2271,8 @@ var UPDATE_URL = "/api/admin/user/update";
   },
   created: function created() {
     this.getUSerData();
-  }
+  },
+  computed: {}
 });
 
 /***/ }),
@@ -46919,7 +46920,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(user.phone))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(user.status))]),
+                        _c("td", [_vm._v(_vm._s(_vm.getStatus(user.status)))]),
                         _vm._v(" "),
                         _c(
                           "td",
@@ -65118,6 +65119,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     paginatedData: function paginatedData() {
       return this.paginate(this.filteredData, this.length, this.pagination.currentPage);
+    },
+    getStatus: function getStatus(val) {
+      if (val == 1) return "Active";else if (val == 2) return "Inactive";
     }
   },
   methods: {
