@@ -295,6 +295,12 @@ export default {
            slug:'',
            permission:[],
         },
+
+          accessControl:{
+            edit:'',
+            delete:'',
+            create:''
+         },
         }
     },
     methods: {

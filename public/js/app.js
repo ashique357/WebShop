@@ -2224,6 +2224,11 @@ var UPDATE_URL = "/api/admin/user/update";
         password: '',
         role: '',
         status: ''
+      },
+      accessControl: {
+        edit: '',
+        "delete": '',
+        create: ''
       }
     };
   },
@@ -2587,6 +2592,11 @@ var UPDATE_URL = "/api/admin/category/update";
         parent_id: '',
         status: '',
         type: ''
+      },
+      accessControl: {
+        edit: '',
+        "delete": '',
+        create: ''
       }
     };
   },
@@ -2938,7 +2948,12 @@ var UPDATE_URL = "/api/admin/permission/update";
         parent_id: '',
         type: ''
       },
-      permissionMenu: []
+      permissionMenu: [],
+      accessControl: {
+        edit: '',
+        "delete": '',
+        create: ''
+      }
     };
   },
   methods: {
@@ -3296,6 +3311,11 @@ var UPDATE_URL = "/api/admin/role/update";
         status: '',
         slug: '',
         permission: []
+      },
+      accessControl: {
+        edit: '',
+        "delete": '',
+        create: ''
       }
     };
   },
@@ -46639,6 +46659,14 @@ var render = function() {
       _c(
         "a",
         {
+          directives: [
+            {
+              name: "can",
+              rawName: "v-can",
+              value: _vm.accessControl.create,
+              expression: "accessControl.create"
+            }
+          ],
           staticClass:
             "d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm pull-right",
           attrs: { href: "#" },
@@ -46928,6 +46956,14 @@ var render = function() {
                             _c(
                               "a",
                               {
+                                directives: [
+                                  {
+                                    name: "can",
+                                    rawName: "v-can",
+                                    value: _vm.accessControl.edit,
+                                    expression: "accessControl.edit"
+                                  }
+                                ],
                                 staticClass: "btn btn-sm btn-secondary",
                                 attrs: { title: "Edit" },
                                 on: {
@@ -46939,7 +46975,22 @@ var render = function() {
                               [_c("i", { staticClass: "fas fa-edit" })]
                             ),
                             _vm._v(" "),
-                            _vm._m(0, true)
+                            _c(
+                              "a",
+                              {
+                                directives: [
+                                  {
+                                    name: "can",
+                                    rawName: "v-can",
+                                    value: _vm.accessControl.delete,
+                                    expression: "accessControl.delete"
+                                  }
+                                ],
+                                staticClass: "btn btn-sm btn-danger",
+                                attrs: { title: "Delete" }
+                              },
+                              [_c("i", { staticClass: "fas fa-trash" })]
+                            )
                           ])
                         ])
                       ])
@@ -46986,8 +47037,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "               " +
-                          _vm._s(_vm.pagination.from) +
+                        _vm._s(_vm.pagination.from) +
                           " - " +
                           _vm._s(_vm.pagination.to) +
                           " of " +
@@ -47225,7 +47275,7 @@ var render = function() {
               "div",
               { staticClass: "modal-content", staticStyle: { width: "130%" } },
               [
-                _vm._m(1),
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "form",
@@ -47242,7 +47292,7 @@ var render = function() {
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(2),
+                          _vm._m(1),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47268,7 +47318,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(3),
+                          _vm._m(2),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47298,7 +47348,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(4),
+                          _vm._m(3),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47328,7 +47378,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(5),
+                          _vm._m(4),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47358,7 +47408,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(6),
+                          _vm._m(5),
                           _vm._v(" "),
                           _c(
                             "select",
@@ -47407,7 +47457,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(7),
+                          _vm._m(6),
                           _vm._v(" "),
                           _c(
                             "select",
@@ -47462,7 +47512,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(8)
+                    _vm._m(7)
                   ]
                 )
               ]
@@ -47493,36 +47543,36 @@ var render = function() {
               "div",
               { staticClass: "modal-content", staticStyle: { width: "130%" } },
               [
-                _vm._m(9),
+                _vm._m(8),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(10),
+                      _vm._m(9),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.name))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(11),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.email))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(12),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.phone))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(13),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.status))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(14),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c(
                         "p",
@@ -47539,7 +47589,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(15)
+                _vm._m(14)
               ]
             )
           ]
@@ -47568,7 +47618,7 @@ var render = function() {
               "div",
               { staticClass: "modal-content", staticStyle: { width: "130%" } },
               [
-                _vm._m(16),
+                _vm._m(15),
                 _vm._v(" "),
                 _c(
                   "form",
@@ -47585,7 +47635,7 @@ var render = function() {
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(17),
+                          _vm._m(16),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47611,7 +47661,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(18),
+                          _vm._m(17),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47637,7 +47687,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(19),
+                          _vm._m(18),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47667,7 +47717,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(20),
+                          _vm._m(19),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -47693,7 +47743,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(21),
+                          _vm._m(20),
                           _vm._v(" "),
                           _c(
                             "select",
@@ -47742,7 +47792,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(22),
+                          _vm._m(21),
                           _vm._v(" "),
                           _c(
                             "select",
@@ -47802,7 +47852,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(23)
+                    _vm._m(22)
                   ]
                 )
               ]
@@ -47814,16 +47864,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "btn btn-sm btn-danger", attrs: { title: "Delete" } },
-      [_c("i", { staticClass: "fas fa-trash" })]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -64602,6 +64642,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('all-users', __webpack_requ
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('role', __webpack_require__(/*! ./components/Role.vue */ "./resources/js/components/Role.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('permission', __webpack_require__(/*! ./components/Permission.vue */ "./resources/js/components/Permission.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('category', __webpack_require__(/*! ./components/Category.vue */ "./resources/js/components/Category.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.directive('can', function (el, binding, vnode) {
+  if (Laravel.permissions.indexOf(binding.value) !== -1) {
+    return vnode.elm.hidden = false;
+  } else {
+    return vnode.elm.hidden = true;
+  }
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -65031,7 +65078,6 @@ __webpack_require__.r(__webpack_exports__);
     this.getAllRoles();
     this.getAllPermission();
     this.getAllPermissionAsMenu();
-    this.getAllCategories();
   },
   computed: {
     filteredData: function filteredData() {

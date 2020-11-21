@@ -25,6 +25,14 @@ Vue.component('permission', require('./components/Permission.vue').default);
 
 Vue.component('category', require('./components/Category.vue').default);
 
+
+Vue.directive('can', function (el, binding, vnode) {
+  if(Laravel.permissions.indexOf(binding.value) !== -1){
+     return vnode.elm.hidden = false;
+  }else{
+     return vnode.elm.hidden = true;
+  }
+})
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

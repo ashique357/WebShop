@@ -298,6 +298,12 @@ export default {
            status:'',
            type:'',
         },
+
+          accessControl:{
+            edit:'',
+            delete:'',
+            create:''
+    },
         }
     },
     methods: {

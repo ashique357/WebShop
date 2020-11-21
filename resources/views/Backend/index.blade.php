@@ -45,5 +45,15 @@
        link_default_protocol: 'https',
    });
 </script>
+
+<script>
+    window.Laravel = <?php echo json_encode([
+      'csrfToken' => csrf_token(),
+      'adminId' => Auth::guard('admin')->user()->id,
+      'permissions' => Auth::guard('admin')->user()->permissions()->pluck('name')->toArray()
+  ]);
+
+  ?>
+</script>
 </body>
 </html>

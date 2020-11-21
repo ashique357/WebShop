@@ -2,7 +2,7 @@
 <div class="card shadow mb-4">
       <div class="card-header py-3">
          <!-- <h6 class="m-0 font-weight-bold text-primary">Learner Application List</h6> -->
-         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm pull-right" @click="openModal('#createModal')"><i class="fas fa-plus fa-sm text-white-50"></i> Add User</a>
+         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm pull-right" @click="openModal('#createModal')" v-can="accessControl.create"><i class="fas fa-plus fa-sm text-white-50"></i> Add User</a>
       </div>
       <div class="card-body">
          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -61,8 +61,8 @@
                            <td>
                               <div class="form-group">
                                  <a class="btn btn-sm btn-primary" title="View" @click="showModal('#showModal',user)"><i class="fas fa-eye"></i></a>
-                                 <a class="btn btn-sm btn-secondary" title="Edit" @click="editModal('#editModal',user)"><i class="fas fa-edit"></i></a>
-                                 <a class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
+                                 <a class="btn btn-sm btn-secondary" title="Edit" @click="editModal('#editModal',user)" v-can="accessControl.edit"><i class="fas fa-edit"></i></a>
+                                 <a class="btn btn-sm btn-danger" title="Delete" v-can="accessControl.delete"><i class="fas fa-trash"></i></a>
                               </div>
                            </td>
                         </tr>
@@ -73,7 +73,7 @@
             <div class="row">
                <div class="col-sm-12 col-md-5">
                   <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite" v-if="!tableShow.showdata">{{pagination.from}} - {{pagination.to}} of {{pagination.total}}</div>
-                  <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite" v-else>               {{pagination.from}} - {{pagination.to}} of {{filteredData.length}}
+                  <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite" v-else>{{pagination.from}} - {{pagination.to}} of {{filteredData.length}}
                      <span v-if="filteredData.length < pagination.total"></span>
                   </div>
                </div>
@@ -285,6 +285,7 @@ const STORE_URL="/api/admin/user/store";
 const UPDATE_URL="/api/admin/user/update";
 export default {
     mixins: [mixin],
+   
     data(){
         return{
             columns:[
@@ -305,6 +306,12 @@ export default {
            role:'',
            status:'',
         },
+
+        accessControl:{
+            edit:'',
+            delete:'',
+            create:''
+    },
         }
     },
     methods: {

@@ -38,7 +38,6 @@ export default{
         this.getAllRoles();
         this.getAllPermission();
         this.getAllPermissionAsMenu();
-        this.getAllCategories();
         },
     computed:{
         filteredData() {

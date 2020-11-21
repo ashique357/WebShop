@@ -288,6 +288,12 @@ export default {
            type:'',
         },
         permissionMenu:[],
+
+          accessControl:{
+            edit:'',
+            delete:'',
+            create:''
+    },
         }
     },
     methods: {
