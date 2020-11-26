@@ -25,6 +25,13 @@ Vue.component('permission', require('./components/Permission.vue').default);
 
 Vue.component('category', require('./components/Category.vue').default);
 
+Vue.component('variation', require('./components/Variation.vue').default);
+
+Vue.component('variation-option', require('./components/VariationOption.vue').default);
+
+
+// Vue.component('product', require('./components/Product.vue').default);
+
 
 Vue.directive('can', function (el, binding, vnode) {
   if(Laravel.permissions.indexOf(binding.value) !== -1){

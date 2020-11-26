@@ -2,7 +2,7 @@
 <div class="card shadow mb-4">
       <div class="card-header py-3">
          <!-- <h6 class="m-0 font-weight-bold text-primary">Learner Application List</h6> -->
-         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm pull-right" @click="openModal('#createModal')" v-can="accessControl.create"><i class="fas fa-plus fa-sm text-white-50"></i> Add User</a>
+         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm pull-right" @click="openModal('#createModal')"><i class="fas fa-plus fa-sm text-white-50"></i> Add Variation Option</a>
       </div>
       <div class="card-body">
          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -49,20 +49,15 @@
                         </tr>
                      </tfoot>
                      <tbody>
-                        <tr role="row" v-for="(user , index) in paginatedData" :key="index">
+                        <tr role="row" v-for="(option , index) in paginatedData" :key="index">
                            <td v-text="index+1"></td>
-                           <td v-text="user.name"></td>
-                           <td>{{user.email}}</td>
-                           <td>{{user.phone}}</td>
-                           <td>{{getStatus(user.status)}}</td>
-                           <td><li v-for="(role,index_1) in user.roles" :key="index_1">
-                                 {{role.name}}
-                              </li></td>
-                           <td>
+                           <td v-text="option.name"></td>
+                            <td v-text="option.var_id"></td>
+                            <td> 
                               <div class="form-group">
-                                 <a class="btn btn-sm btn-primary" title="View" @click="showModal('#showModal',user)"><i class="fas fa-eye"></i></a>
-                                 <a class="btn btn-sm btn-secondary" title="Edit" @click="editModal('#editModal',user)" v-can="accessControl.edit"><i class="fas fa-edit"></i></a>
-                                 <a class="btn btn-sm btn-danger" title="Delete" v-can="accessControl.delete"><i class="fas fa-trash"></i></a>
+                                 <a class="btn btn-sm btn-primary" title="View" @click="showModal('#showModal',option)"><i class="fas fa-eye"></i></a>
+                                 <a class="btn btn-sm btn-secondary" title="Edit" @click="editModal('#editModal',option)"><i class="fas fa-edit"></i></a>
+                                 <a class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
                               </div>
                            </td>
                         </tr>
@@ -102,48 +97,26 @@
          <div class="modal-dialog" role="document">
             <div class="modal-content" style="width:130%">
                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add User<strong></strong></h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Add Variation Options<strong></strong></h5>
                   <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                   </button>
                </div>
-            <form action="" method="Post" @submit.prevent="createUser(store)">
+            <form action="" method="Post" @submit.prevent="createVarOptionData(store)">
                <div class="modal-body">
                   <div class="row">
-                     <div class="col-md-12">
-                        <label for=""><b>Username:</b></label>
+                    <div class="col-md-12">
+                        <label for=""><b>Variation Option name:</b></label>
                         <input type="text" v-model="store.name" id="name1" class="form-control">
                      </div>
 
-                     <div class="col-md-12">
-                        <label for=""><b>Email:</b></label>
-                        <input type="email" v-model="store.email" id="email1" class="form-control">
-                     </div>
-                     <div class="col-md-12">
-                        <label for=""><b>Password:</b></label>
-                        <input type="password" v-model="store.password" id="pass1" class="form-control">
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Phone:</b></label>
-                        <input type="text" v-model="store.phone" id="phone1" class="form-control">
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Status:</b></label>
-                        <select name="" id="status" v-model="store.status" class="form-control">
-                           <option value="1">Active</option>
-                           <option value="0">Decative</option>
+                    <div class="col-md-12">
+                        <label for=""><b>Select Variation:</b></label>
+                        <select name="" id="" class="form-control" v-model="store.var_id">
+                            <option disabled>Select Variation</option>
+                            <option v-for="(va,index) in variations" :key="index" :value="index">{{va}}</option>
                         </select>
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Roles:</b></label>
-                        <select name="" id="role1" class="form-control" v-model="store.role">
-                           <option disabled>Select Role</option>
-                           <option v-for="(admin,index) in adminRole" :key="index" :value="admin.id">{{admin.name}}</option>
-                        </select>
-                     </div>
+                    </div>
                   </div>      
                </div>
                <div class="modal-footer">
@@ -165,7 +138,7 @@
          <div class="modal-dialog" role="document">
             <div class="modal-content" style="width:130%">
                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">User Details<strong></strong></h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Variation Details<strong></strong></h5>
                   <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                   </button>
@@ -173,32 +146,9 @@
                <div class="modal-body">
                   <div class="row">
                      <div class="col-md-12">
-                        <label for=""><b>Username:</b></label>
+                        <label for=""><b>Variation name:</b></label>
                         <p>{{show.name}}</p>   
                      </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Email:</b></label>
-                        <p>{{show.email}}</p>   
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Phone:</b></label>
-                        <p>{{show.phone}}</p>   
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Status:</b></label>
-                        <p>{{show.status}}</p>   
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Role:</b></label>
-                        <p>
-                           <span v-for="(role,index_2) in show.roles" :key="index_2">{{index_2+1}}.{{role.name}}</span>
-                        </p>   
-                     </div>
-
                   </div>      
                </div>
                <div class="modal-footer">
@@ -216,49 +166,26 @@
          <div class="modal-dialog" role="document">
             <div class="modal-content" style="width:130%">
                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit User Details<strong></strong></h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Edit Variation Details<strong></strong></h5>
                   <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                   </button>
                </div>
-            <form action="" method="Post" @submit.prevent="updateUser(show)">
+            <form action="" method="Post" @submit.prevent="updateVarOptionData(show)">
                <div class="modal-body">
                   <div class="row">
                      <div class="col-md-12">
-                        <label for=""><b>Username:</b></label>
+                        <label for=""><b>Variation name:</b></label>
                         <input type="text" v-model="show.name" id="name" class="form-control">
                      </div>
 
-                     <div class="col-md-12">
-                        <label for=""><b>Email:</b></label>
-                        <input type="text" v-model="show.email" id="email" class="form-control" disabled>
-                     </div>
-                     <div class="col-md-12">
-                        <label for=""><b>Password:</b></label>
-                        <input type="text" v-model="show.password" id="pass" class="form-control">
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Phone:</b></label>
-                        <input type="text" v-model="show.phone" id="phone" class="form-control">
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Status:</b></label>
-                        <select name="" id="status" v-model="show.status" class="form-control">
-                           <option value="1">Active</option>
-                           <option value="0">Decative</option>
+                    <div class="col-md-12">
+                        <label for=""><b>Select Variation:</b></label>
+                        <select name="" id="" class="form-control" v-model="show.var_id">
+                            <option disabled>Select Variation</option>
+                            <option v-for="(va,index) in variations" :key="index" :value="index">{{va}}</option>
                         </select>
-                     </div>
-
-                     <div class="col-md-12">
-                        <label for=""><b>Roles:</b></label>
-                        <select name="" id="" class="form-control" v-model="show.role">
-                           <option disabled>Select Role</option>
-                           <option v-for="(admin,index) in adminRole" :key="index" :value="admin.id">{{admin.name}}</option>
-                        </select>
-                     </div>
-                     {{show.role}}
+                    </div>
                   </div>      
                </div>
                <div class="modal-footer">
@@ -280,9 +207,9 @@
 <script>
 import mixin from '../mixin'
 
-const INDEX_URL="/api/admin/user/index";
-const STORE_URL="/api/admin/user/store";
-const UPDATE_URL="/api/admin/user/update";
+const INDEX_URL="/api/admin/variation/option/index";
+const STORE_URL="/api/admin/variation/option/store";
+const UPDATE_URL="/api/admin/variation/option/update";
 export default {
     mixins: [mixin],
    
@@ -291,21 +218,14 @@ export default {
             columns:[
             {label: 'SL', name: '' },
             {label: 'Name', name: 'name' },
-            {label: 'Email', name: 'email'},
-            {label: 'Phone', name: 'phone'},
-            {label: 'Status', name: 'status'},
-            {label: 'Role', name: 'role'},
+            {label: 'Variation Id', name: 'var_id' },
         ],
-        adminRole:[],
         show:[],
         store:{
            name:'',
-           email:'',
-           phone:'',
-           password:'',
-           role:'',
-           status:'',
+           var_id:'',
         },
+        variations:[],
 
         accessControl:{
             edit:'',
@@ -315,20 +235,16 @@ export default {
         }
     },
     methods: {
-      getUSerData() {
+      getVarOptionData() {
         this.getData(INDEX_URL);
       },
-      updateUser(data) {
+      updateVarOptionData(data) {
         this.updateData(UPDATE_URL,data);
       },
 
-      createUser(store) {
+      createVarOptionData(store) {
         this.store.name=store.name;
-        this.store.email=store.email;
-        this.store.phone=store.phone;
-        this.store.password=store.password;
-        this.store.role=store.role;
-        this.store.status=store.status;
+        this.store.var_id=store.var_id;
         this.$http.post(STORE_URL,this.store)
           .then(response=>{
                 this.closeModal("#createModal");
@@ -347,7 +263,7 @@ export default {
     },
 
     created(){
-        this.getUSerData()
+        this.getVarOptionData()
     },
     computed:{
        

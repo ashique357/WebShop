@@ -31,6 +31,9 @@ export default{
             adminPermission:[],
             permissionMenu:[],
             categories:[],
+            variations:[],
+            // photoFiles: [],
+
         }
     },
     created() {
@@ -38,6 +41,8 @@ export default{
         this.getAllRoles();
         this.getAllPermission();
         this.getAllPermissionAsMenu();
+        this.getAllCategories();
+        this.getAllVariations();
         },
     computed:{
         filteredData() {
@@ -75,11 +80,6 @@ export default{
         paginatedData() {
             return this.paginate(this.filteredData, this.length, this.pagination.currentPage);
         },
-
-        getStatus(val){
-            if(val ==1) return "Active";
-            else if (val ==2) return "Inactive";
-        }
 
     },
     methods:{
@@ -147,6 +147,10 @@ export default{
             })
         },
 
+        // setPhotoFiles (fieldName, fileList) {
+        //     this.photoFiles = fileList;
+        //   },
+
         openModal(modalId){
             $(modalId).modal();
         },
@@ -207,6 +211,17 @@ export default{
             })
         },
 
+        getAllVariations(URL="/api/admin/get-all-variations"){
+            this.$http.post(URL)
+            .then(resp=>{
+                this.variations=resp.data.variations;
+                // console.log(resp.data.categories);
+            })
+            .catch(errors=>{
+                console.log(errors);
+            })
+        },
+
         successSweetAlert(){
             this.$swal({
                 title: "Success",
@@ -245,6 +260,11 @@ export default{
                 position:'top-right'
             }), 100);
         },
+
+        getStatus(val){
+            if(val ==1) return "Active";
+            else if (val ==2) return "Inactive";
+        }
 
     }
 }

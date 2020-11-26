@@ -10,12 +10,17 @@ Route::prefix('admin')->middleware('AdminAuthCheck')->group(function () {
     Route::get('/logout', 'Auth\AdminLoginController@adminLogout')->name('admin.logout');
 });
 
-Route::prefix('admin')->middleware(['AdminAuthCheck','role'])->group(function () {
+Route::prefix('admin')->middleware(['AdminAuthCheck'])->group(function () {
 
     Route::resource('/user','AdminController');
     Route::resource('/role','RoleController');
     Route::get('/permission','PermissionController@index')->name('permission.index');
     Route::get('/category','CategoryController@index')->name('category.index');
+
+    // Route::get('/product','ProductController@index')->name('product.index');
+    Route::get('/variation','VariationController@variations')->name('variation');
+    Route::get('/variation/option','VariationController@variationOption')->name('variation.option');
+
 });
 
 Route::get('/clear-cache', function() {

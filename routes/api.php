@@ -26,4 +26,22 @@ Route::prefix('admin')->group(function () {
 
     Route::post('/get-all-categories','API\CategoryController@getAllCategories')->name('admin.get-all-categories');
 
+
+
+    Route::get('/variation/index','API\Product\VariationController@index')->name('admin.variation.index');
+    Route::post('/variation/store','API\Product\VariationController@store')->name('admin.variation.store');
+    Route::post('/variation/update','API\Product\VariationController@update')->name('admin.variation.update');
+    Route::post('/get-all-variations','API\Product\VariationController@getAllVariations')->name('admin.get-all-variations');
+
+
+    Route::get('/variation/option/index','API\Product\VariationOptionController@index')->name('admin.variation.option.index');
+    Route::post('/variation/option/store','API\Product\VariationOptionController@store')->name('admin.variation.option.store');
+    Route::post('/variation/option/update','API\Product\VariationOptionController@update')->name('admin.variation.option.update');
+
+
+
+    Route::get('/product/index','API\Product\ProductController@index')->name('admin.product.index');
+    Route::post('/product/store','API\Product\ProductController@store')->name('admin.product.store');
+    Route::post('/product/update','API\Product\ProductController@update')->name('admin.product.update');
+
 });

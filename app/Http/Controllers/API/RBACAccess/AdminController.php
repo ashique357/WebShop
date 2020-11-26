@@ -40,9 +40,11 @@ class AdminController extends Controller
                 ->orWhere('email', 'like', '%' . $search_input . '%')
                 ->orWhere('phone', 'like', '%' . $search_input . '%')
                 ->orWhere('role', 'like', '%' . $search_input . '%');
-                })->where(function($query) use ($filter_input){
-                    $query->where('status', 'like', '%'.$filter_input.'%');
-                });
+                })
+                // ->where(function($query) use ($filter_input){
+                //     $query->where('status', 'like', '%'.$filter_input.'%');
+                // })
+                ;
                 }
             $admins = $query->paginate($length);
             return ['data' => $admins];            
@@ -81,9 +83,5 @@ class AdminController extends Controller
         else{
             return response()->json('error',100);
         }
-        // $admin=$this->admin->find(id,1);
-        // $permission="update-admin";
-        // $t=$this->authorize('update', $admin,$permission);
-        // echo $t;
     }
 }
