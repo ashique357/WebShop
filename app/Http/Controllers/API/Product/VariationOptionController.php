@@ -56,4 +56,16 @@ class VariationOptionController extends Controller
             return response()->json('error',100);
         }
     }
+
+    public function getAllVariationOption(Request $request){
+        if($request){
+            $variations=$this->option->pluck('name','id','var_id')->all();
+            return response()->json(['success'=>200,'variations'=>$variations]);
+        }
+    }
+    
+    public function getVar(Request $request){
+        $variations=$this->option->where('var_id',$request->var_id)->get();
+        return response()->json(['success'=>200,'variations'=>$variations]);
+    }
 }

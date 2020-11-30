@@ -37,7 +37,7 @@
 <script type="text/javascript">
    tinymce.init({
        selector:'textarea.tiny-mce',
-       width: 900,
+       width: 620,
        height: 300,
        plugins : ["advlist autolink lists link image charmap print preview anchor pagebreak", "searchreplace visualblocks code fullscreen", "insertdatetime media table contextmenu paste jbimages tinymcespellchecker"],
         toolbar : "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages |spellchecker",

@@ -61,4 +61,11 @@ class VariationController extends Controller
             return response()->json(['success'=>200,'variations'=>$variations]);
         }
     }
+
+    public function getAll(Request $request){
+        if($request){
+            $variations=$this->variation->with('options')->get();
+            return response()->json(['success'=>200,'variations'=>$variations]);
+        }
+    }
 }

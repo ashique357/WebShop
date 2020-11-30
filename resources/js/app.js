@@ -29,8 +29,11 @@ Vue.component('variation', require('./components/Variation.vue').default);
 
 Vue.component('variation-option', require('./components/VariationOption.vue').default);
 
+Vue.component('gallery', require('./components/Gallery.vue').default);
 
-// Vue.component('product', require('./components/Product.vue').default);
+Vue.component('product', require('./components/Product.vue').default);
+
+Vue.component('product-management', require('./components/ProductManagement.vue').default);
 
 
 Vue.directive('can', function (el, binding, vnode) {

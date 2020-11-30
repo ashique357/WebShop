@@ -17,7 +17,9 @@ Route::prefix('admin')->middleware(['AdminAuthCheck'])->group(function () {
     Route::get('/permission','PermissionController@index')->name('permission.index');
     Route::get('/category','CategoryController@index')->name('category.index');
 
-    // Route::get('/product','ProductController@index')->name('product.index');
+    Route::get('/product','ProductController@index')->name('admin.product.index');
+    Route::get('/product/{id}','ProductController@show')->name('admin.product.show');
+    Route::get('/gallery','VariationController@gallery')->name('gallery.index');
     Route::get('/variation','VariationController@variations')->name('variation');
     Route::get('/variation/option','VariationController@variationOption')->name('variation.option');
 

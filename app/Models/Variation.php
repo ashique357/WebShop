@@ -11,6 +11,6 @@ class Variation extends Model
     protected $fillable=["name"];
 
     public function options(){
-        return $this->hasMany('App\Models\VariatioOption');
+        return $this->hasMany('App\Models\VariationOption','var_id');
     }
 }

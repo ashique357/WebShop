@@ -232,14 +232,14 @@
                         <textarea type="text" v-model="show.description" id="desc" class="form-control"></textarea>
                      </div>
 
-                    <div class="col-md-12">
+                     <div class="col-md-12">
                         <br>
                         <label for=""><b>Permissions:</b></label>
                         <div class="form-check form-check-inline" v-for="(admin,index) in adminPermission" :key="index+1">
-                            <input class="form-check-input" type="checkbox" :id="'permission_'+ index" v-model="$data.permission" :value="admin.id">
-                            <label :for="'permission' +index"><span class="badge badge-pill badge-primary">{{admin.name}}</span></label>
+                           <input class="form-check-input" type="checkbox" :id="'permission_'+ index" v-model="$data.permission" :value="admin.id">
+                           <label :for="'permission' +index"><span class="badge badge-pill badge-primary">{{admin.name}}</span></label>
                         </div>
-                    </div>
+                     </div>
 
                     <div class="col-md-12">
                         <label for=""><b>Status:</b></label>

@@ -184,7 +184,7 @@
          </div>
       </div>
       <!-- editModal -->
-   </div>
+</div>
 </template>
 
 <script>

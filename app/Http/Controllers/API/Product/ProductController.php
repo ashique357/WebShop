@@ -21,18 +21,17 @@ class ProductController extends Controller
         if ( $request->input('showdata') ) {
             return $this->product->with('categories')->latest()->get();
             }
-            $columns = ['name', 'slug','category_name','previewImage'];
+            $columns = ['name', 'slug','category_id','preview_image'];
             $length = $request->input('length');
             $column = $request->input('column');
             $search_input = $request->input('search');
-            $filter_input=$request->input('status');
-            $query = $this->product->select('name', 'slug','category_name','previewImage')->orderBy($column);
+            $query = $this->product->select('name', 'slug','category_id','preview_image')->orderBy($column);
             if (isset($search_input)) {
                 $query->where(function($query) use ($search_input) {
                 $query->where('name', 'like', '%' . $search_input . '%')
                 ->orWhere('slug', 'like', '%' . $search_input . '%')
-                ->orWhere('category_name', 'like', '%' . $search_input . '%')
-                ->orWhere('previewImage', 'like', '%' . $search_input . '%');
+                ->orWhere('category_id', 'like', '%' . $search_input . '%')
+                ->orWhere('preview_image', 'like', '%' . $search_input . '%');
                 })
                 // ->where(function($query) use ($filter_input){
                 //     $query->where('status', 'like', '%'.$filter_input.'%');
@@ -48,7 +47,6 @@ class ProductController extends Controller
         $product->name=$request->input('name');
         $product->slug=$request->input('slug');
         $product->category_id=$request->input('category_id');
-        $product->category_name=$request->input('category_name');
         $product->save();
         return response()->json('successfully saved',200);            
     }
@@ -59,7 +57,6 @@ class ProductController extends Controller
             $product->name=$request->input('name');
             $product->slug=$request->input('slug');
             $product->category_id=$request->input('category_id');
-            $product->category_name=$request->input('category_name');
             $product->update();
             return response()->json('successfully updated',200);            
         }

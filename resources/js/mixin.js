@@ -32,8 +32,9 @@ export default{
             permissionMenu:[],
             categories:[],
             variations:[],
-            // photoFiles: [],
-
+            variationOptions:[],
+            vars:[],
+            galleries:[],
         }
     },
     created() {
@@ -43,6 +44,8 @@ export default{
         this.getAllPermissionAsMenu();
         this.getAllCategories();
         this.getAllVariations();
+        this.getAllVariationOptions();
+        this.getGalleryData();
         },
     computed:{
         filteredData() {
@@ -103,7 +106,7 @@ export default{
         getIndex(array, key, value) {
             return array.findIndex(i => i[key] == value)
             },
-        
+
         getData(API_URL) {
             this.$http.get(API_URL, {params: this.tableShow})
             .then(response => {
@@ -146,10 +149,6 @@ export default{
                 console.log(error.message);
             })
         },
-
-        // setPhotoFiles (fieldName, fileList) {
-        //     this.photoFiles = fileList;
-        //   },
 
         openModal(modalId){
             $(modalId).modal();
@@ -216,6 +215,41 @@ export default{
             .then(resp=>{
                 this.variations=resp.data.variations;
                 // console.log(resp.data.categories);
+            })
+            .catch(errors=>{
+                console.log(errors);
+            })
+        },
+
+        getAllVariationOptions(URL="/api/admin/get-all-variation-options"){
+            this.$http.post(URL)
+            .then(resp=>{
+                this.variationOptions=resp.data.variations;
+                // console.log(resp.data.variations);
+            })
+            .catch(errors=>{
+                console.log(errors);
+            })
+        },
+
+        getVar(data){
+            var val2=data;
+            let URL="/api/admin/get-var?var_id="+val2;
+            this.$http.get(URL)
+            .then(resp=>{
+                    this.vars=resp.data.variations;
+                    // console.log(resp.data.variations);
+            })
+            .catch(errors=>{
+                    console.log(errors);
+            })
+        },
+
+        getGalleryData(URL="/api/admin/gallery/all"){
+            this.$http.post(URL)
+            .then(resp=>{
+                this.galleries=resp.data.galleries;
+                console.log(this.galleries);
             })
             .catch(errors=>{
                 console.log(errors);

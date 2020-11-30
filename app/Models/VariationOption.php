@@ -13,4 +13,8 @@ class VariationOption extends Model
     public function variations(){
         return $this->belongsTo('App\Models\Variation','var_id');
     }
+
+    public function products(){
+        return $this->belongsToMany('App\Models\Products','product_id');
+    }
 }

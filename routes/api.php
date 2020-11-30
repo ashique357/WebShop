@@ -33,15 +33,30 @@ Route::prefix('admin')->group(function () {
     Route::post('/variation/update','API\Product\VariationController@update')->name('admin.variation.update');
     Route::post('/get-all-variations','API\Product\VariationController@getAllVariations')->name('admin.get-all-variations');
 
-
     Route::get('/variation/option/index','API\Product\VariationOptionController@index')->name('admin.variation.option.index');
     Route::post('/variation/option/store','API\Product\VariationOptionController@store')->name('admin.variation.option.store');
     Route::post('/variation/option/update','API\Product\VariationOptionController@update')->name('admin.variation.option.update');
+    Route::post('/get-all-variation-options','API\Product\VariationOptionController@getAllVariationOption')->name('admin.get-all-variations-option');
+ 
+
+    Route::get('/get-var','API\Product\VariationOptionController@getVar')->name('admin.get-var');
 
 
+    Route::get('/gallery/index','API\GalleryController@index')->name('admin.gallery.index');
+    Route::post('/gallery/store','API\GalleryController@store')->name('admin.gallery.store');
+    // Route::post('/variation/option/update','API\Product\VariationOptionController@update')->name('admin.variation.option.update');
+    Route::post('/gallery/all','API\GalleryController@getAll')->name('admin.gallery.all');
 
     Route::get('/product/index','API\Product\ProductController@index')->name('admin.product.index');
     Route::post('/product/store','API\Product\ProductController@store')->name('admin.product.store');
     Route::post('/product/update','API\Product\ProductController@update')->name('admin.product.update');
 
+    Route::post('/stores','API\Product\StockController@store')->name('admin.product.stores.store');
+
+    Route::post('/product/variation/store','API\Product\ProductVariationController@store')->name('admin.product.variation.store');
+    Route::post('/product/variation/option/store','API\Product\ProductVariationController@storeVarOpt')->name('admin.product.variation.option.store');
+    Route::get('/product/get-variations-all','API\Product\ProductVariationController@getAll')->name('admin.product.variation.get-all');
+    Route::get('/product/variation/option/all','API\Product\ProductVariationController@getProdVar')->name('admin.product.var.opt.get-all');
+    
+    Route::post('/product/image/store','API\Product\ProductVariationController@soreProdImg')->name('admin.product.var.image.get-all');
 });
