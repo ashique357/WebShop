@@ -42,13 +42,11 @@
                   <div class="card-body">
                      <form action="" method="POST" @submit.prevent="storeStock(stock)">
                         <div class="row">
-                           <div class="col-md-12" v-for="(variants,index) in allVar" :key="index+1">
+                           <div class="col-md-12" v-for="(variants,index) in ProductVariationWithOption" :key="index+1">
                               <label for="">{{variants.name}}:</label>
-                              <br>
                               <div class="form-check form-check-inline" v-for="(option,index) in variants.product_variation_options" :key="index+1">
                                  <input class="form-check-input" type="checkbox" :id="'variants_'+ index+option" v-model="stock.option" :value="option.name">
                                  <label :for="'variants_'+ index+option"><span class="badge badge-pill badge-primary">{{option.name}}</span></label>
-                                 <br>
                               </div>
                            </div>
                            <div class="col-md-12">
@@ -75,6 +73,7 @@
                   </div>
                </div>
             </div>
+
             <div class="tab-pane fade" id="nav-gallery" role="tabpanel" aria-labelledby="nav-gallery-tab">
                <div class="card">
                   <div class="card-header">
@@ -84,19 +83,21 @@
                      <form action="" method="POST" @submit.prevent="storeProductImage(imageData)">
                         <div class="row">
                            <div class="col-md-12">
-                              <div class="col-md-4" v-for="(variants,index) in allVar" :key="index+1">
-                                 <label for="">{{variants.name}}:</label>
-                                 <div class="col-md-8 form-check form-check-inline" v-for="(option,index) in variants.product_variation_options" :key="index+1">
-                                    <input class="form-check-input" type="checkbox" :id="'variants_'+ index+option" v-model="imageData.option" :value="option.id">
-                                    <label :for="'variants_'+ index+option"><span class="badge badge-pill badge-primary">{{option.name}}</span></label>
-                                    <br>
-                                 </div>
-                              </div>
+                              <select name="" id="" class="form-control" v-model="imageData.option">
+                                 <option value="">Select the variation option</option>
+                                 <option v-for="(option,index) in allVar" :key="index" :value="option.id">{{option.name}}</option>
+                              </select>
+                           </div>
+                           <div class="col-md-12">
+                              
                               <ul>
                                  <br>
                                  <li class="image_class" v-for="(image,index) in galleries" :key="index">
-                                    <input type="checkbox" id="'myCheckbox_0'+index" v-model="imageData.images" :value="image.id"/>
-                                    <label for="'myCheckbox'+ index"><img :src="image.small" alt="" />
+                                    <input type="checkbox"  id="'_myCheckbox'+index" v-model="imageData.images" :value="image.id"/>
+                                    
+                                       <input type="radio" id="preview_image" v-model="imageData.preview_image" :value="image.id" checked>
+                                       <label for="preview_image">Select as Featured Image</label>
+                                       <label for="'_myCheckbox'+index"><img :src="image.small" alt="" />
                                     </label>
                                  </li>
                               </ul>
@@ -152,6 +153,7 @@
             </div>
          </div>
       </div>
+      
       <!-- createModal -->
    </div>
 </template>
@@ -167,6 +169,7 @@ export default {
    props:['product'],
     data(){
         return{
+           ProductVariationWithOption:[],
           allVar:[],
           prodVar:[],
           var_id:'',
@@ -191,7 +194,9 @@ export default {
           },
           imageData:{
               images:[],
-              option:[],
+              option:"",
+              preview_image:'',
+              product_id:'',
           }
           
         }
@@ -273,11 +278,17 @@ export default {
         },
 
         getAllVProdVarOpt(){
+           let vars=[];
             let URL="/api/admin/product/variation/option/all?product_id="+this.product.id;
             this.$http.get(URL)
             .then(resp=>{
-                this.allVar=resp.data.prodVarOpts;
-                // console.log(this.allVar);
+               vars=resp.data.prodVarOpts;
+               this.ProductVariationWithOption=resp.data.prodVarOpts;
+               //  console.log(this.allVar);
+               vars.forEach(element => {
+                  this.allVar=element.product_variation_options;
+                  // console.log(element.product_variation_options);
+               });
             })
             .catch(errors=>{
                 console.log(errors);
@@ -287,13 +298,21 @@ export default {
         storeProductImage(data){
             this.imageData.images=data.images;
             this.imageData.option=data.option;
-            // console.log(data);
+            this.imageData.preview_image=data.preview_image;
+            this.imageData.product_id=this.product.id;
+            console.log(data);
             this.$http.post(PRODUCT_IMAGE_URL,data)
             .then(resp=>{
-                console.log(resp.data);
+               //  console.log(resp.data);
+               this.successSweetAlert();
+               this.SuccessToaster();
+               this.reload();
             })
             .catch(error=>{
-                console.log(error);
+               //  console.log(error);
+               this.failedSweetAlert();
+               this.FailedToaster();
+               this.reload();
             })
         }
     },
@@ -318,9 +337,15 @@ ul {
   display: inline-block;
 }
 
-input[type="checkbox"][id^="myCheckbox"] {
+input[type="checkbox"][id^="_myCheckbox"] {
   display: none;
 }
+
+/* input+div{display:none;}
+
+input:hover+div{
+   display:inline;
+   } */
 
 label {
   border: 1px solid #fff;

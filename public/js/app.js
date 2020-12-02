@@ -2711,7 +2711,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 var INDEX_URL = "/api/admin/gallery/index";
 var STORE_URL = "/api/admin/gallery/store";
@@ -2719,20 +2718,7 @@ var STORE_URL = "/api/admin/gallery/store";
   mixins: [_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
-      columns: [{
-        label: 'SL',
-        name: ''
-      }, {
-        label: 'Small',
-        name: 'small'
-      }, {
-        label: 'Medium',
-        name: 'medium'
-      }, {
-        label: 'Large',
-        name: 'large'
-      }],
-      show: [],
+      galleries: [],
       store: {
         files: []
       },
@@ -2744,9 +2730,6 @@ var STORE_URL = "/api/admin/gallery/store";
     };
   },
   methods: {
-    getGalleryData: function getGalleryData() {
-      this.getData(INDEX_URL);
-    },
     handleFilesUploads: function handleFilesUploads() {
       this.files = this.$refs.files.files;
     },
@@ -2772,9 +2755,7 @@ var STORE_URL = "/api/admin/gallery/store";
       return publicUrl + '/public' + path;
     }
   },
-  created: function created() {
-    this.getGalleryData();
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -3108,6 +3089,7 @@ var UPDATE_URL = "/api/admin/permission/update";
       this.store.slug = store.slug;
       this.store.parent_id = store.parent_id;
       this.store.type = store.type;
+      console.log(store);
       this.$http.post(STORE_URL, this.store).then(function (response) {
         _this.closeModal("#createModal");
 
@@ -3424,11 +3406,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 var INDEX_URL = "/api/admin/product/index";
 var STORE_URL = "/api/admin/product/store";
@@ -3460,7 +3437,6 @@ var UPDATE_URL = "/api/admin/product/update";
         name: '',
         slug: '',
         category_id: '',
-        preview_image: '',
         description: ''
       },
       variationOptions: [],
@@ -3484,40 +3460,32 @@ var UPDATE_URL = "/api/admin/product/update";
       this.updateData(UPDATE_URL, data);
     },
     createProduct: function createProduct(store) {
-      var _this = this;
-
       this.store.name = store.name;
       this.store.slug = store.slug;
-      this.store.category_id = store.category_id; //   this.store.preview_image=store.preview_image;
-
+      this.store.category_id = store.category_id;
       this.store.description = store.description;
-      this.$http.post(STORE_URL, this.store).then(function (response) {
-        _this.closeModal("#createModal");
-
-        _this.successSweetAlert();
-
-        _this.SuccessToaster();
-
-        _this.reload();
-      })["catch"](function (error) {
-        console.log(error.message);
-
-        _this.closeModal("#createModal");
-
-        _this.failedSweetAlert();
-
-        _this.FailedToaster();
-
-        _this.reload();
-      });
+      console.log(store); //   this.$http.post(STORE_URL,this.store)
+      //     .then(response=>{
+      //           this.closeModal("#createModal");
+      //           this.successSweetAlert();
+      //           this.SuccessToaster();
+      //          //  this.reload();
+      //       })
+      //       .catch(error=>{
+      //           console.log(error.message);
+      //           this.closeModal("#createModal");
+      //           this.failedSweetAlert();
+      //           this.FailedToaster();
+      //          //  this.reload();
+      //       })
     },
     getVar: function getVar() {
-      var _this2 = this;
+      var _this = this;
 
       var val2 = $("select[id='var_id']").children("option:selected").val();
       var URL = "/api/admin/get-var?var_id=" + val2;
       this.$http.get(URL).then(function (resp) {
-        _this2.vars = resp.data.variations;
+        _this.vars = resp.data.variations;
         console.log(resp.data.variations);
       })["catch"](function (errors) {
         console.log(errors);
@@ -3699,6 +3667,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 var STOCK_URL = "/api/admin/stores";
 var PRODUCT_VARIANT_URL = "/api/admin/product/variation/store";
@@ -3709,6 +3679,7 @@ var PRODUCT_IMAGE_URL = "/api/admin/product/image/store";
   props: ['product'],
   data: function data() {
     return {
+      ProductVariationWithOption: [],
       allVar: [],
       prodVar: [],
       var_id: '',
@@ -3731,7 +3702,9 @@ var PRODUCT_IMAGE_URL = "/api/admin/product/image/store";
       },
       imageData: {
         images: [],
-        option: []
+        option: "",
+        preview_image: '',
+        product_id: ''
       }
     };
   },
@@ -3826,21 +3799,41 @@ var PRODUCT_IMAGE_URL = "/api/admin/product/image/store";
     getAllVProdVarOpt: function getAllVProdVarOpt() {
       var _this5 = this;
 
+      var vars = [];
       var URL = "/api/admin/product/variation/option/all?product_id=" + this.product.id;
       this.$http.get(URL).then(function (resp) {
-        _this5.allVar = resp.data.prodVarOpts; // console.log(this.allVar);
+        vars = resp.data.prodVarOpts;
+        _this5.ProductVariationWithOption = resp.data.prodVarOpts; //  console.log(this.allVar);
+
+        vars.forEach(function (element) {
+          _this5.allVar = element.product_variation_options; // console.log(element.product_variation_options);
+        });
       })["catch"](function (errors) {
         console.log(errors);
       });
     },
     storeProductImage: function storeProductImage(data) {
-      this.imageData.images = data.images;
-      this.imageData.option = data.option; // console.log(data);
+      var _this6 = this;
 
+      this.imageData.images = data.images;
+      this.imageData.option = data.option;
+      this.imageData.preview_image = data.preview_image;
+      this.imageData.product_id = this.product.id;
+      console.log(data);
       this.$http.post(PRODUCT_IMAGE_URL, data).then(function (resp) {
-        console.log(resp.data);
+        //  console.log(resp.data);
+        _this6.successSweetAlert();
+
+        _this6.SuccessToaster();
+
+        _this6.reload();
       })["catch"](function (error) {
-        console.log(error);
+        //  console.log(error);
+        _this6.failedSweetAlert();
+
+        _this6.FailedToaster();
+
+        _this6.reload();
       });
     }
   },
@@ -9285,7 +9278,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntd li[data-v-5761a7b7]{\r\n   list-style :none;\n}\nli[data-v-5761a7b7]{\r\n   list-style: none;\n}\n.list_image[data-v-5761a7b7]{\r\n    width:30px;\r\n    height: 30px;\n}\r\n", ""]);
+exports.push([module.i, "\nul[data-v-5761a7b7] {\r\n  list-style-type: none;\n}\n.image_class[data-v-5761a7b7]{\r\n  display: inline-block;\n}\ninput[type=\"checkbox\"][id^=\"myCheckbox\"][data-v-5761a7b7] {\r\n  display: none;\n}\nlabel[data-v-5761a7b7] {\r\n  border: 1px solid #fff;\r\n  padding: 10px;\r\n  display: block;\r\n  position: relative;\r\n  margin: 10px;\r\n  cursor: pointer;\n}\nlabel[data-v-5761a7b7]:before {\r\n  background-color: white;\r\n  color: white;\r\n  content: \" \";\r\n  display: block;\r\n  border-radius: 50%;\r\n  border: 1px solid grey;\r\n  position: absolute;\r\n  top: -5px;\r\n  left: -5px;\r\n  width: 25px;\r\n  height: 25px;\r\n  text-align: center;\r\n  line-height: 28px;\r\n  transition-duration: 0.4s;\r\n  transform: scale(0);\n}\nlabel img[data-v-5761a7b7] {\r\n  height: 100px;\r\n  width: 100px;\r\n  transition-duration: 0.2s;\r\n  transform-origin: 50% 50%;\n}\n:checked + label[data-v-5761a7b7] {\r\n  border-color: #ddd;\n}\n:checked + label[data-v-5761a7b7]:before {\r\n  content: \"\\2713\";\r\n  background-color: grey;\r\n  transform: scale(1);\n}\n:checked + label img[data-v-5761a7b7] {\r\n  transform: scale(0.9);\r\n  /* box-shadow: 0 0 5px #333; */\r\n  z-index: -1;\n}\r\n", ""]);
 
 // exports
 
@@ -9323,7 +9316,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntd li[data-v-7e94e6d4]{\r\n   list-style :none;\n}\nli[data-v-7e94e6d4]{\r\n   list-style: none;\n}\r\n", ""]);
+exports.push([module.i, "\ntd li[data-v-7e94e6d4]{\r\n   list-style :none;\n}\nli[data-v-7e94e6d4]{\r\n   list-style: none;\n}\n.image_class img[data-v-7e94e6d4]{\r\n   height:100px;\r\n   width:100px;\n}\r\n", ""]);
 
 // exports
 
@@ -9342,7 +9335,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nul[data-v-00a19292] {\r\n  list-style-type: none;\n}\n.image_class[data-v-00a19292]{\r\n  display: inline-block;\n}\ninput[type=\"checkbox\"][id^=\"myCheckbox\"][data-v-00a19292] {\r\n  display: none;\n}\nlabel[data-v-00a19292] {\r\n  border: 1px solid #fff;\r\n  padding: 10px;\r\n  display: block;\r\n  position: relative;\r\n  margin: 10px;\r\n  cursor: pointer;\n}\nlabel[data-v-00a19292]:before {\r\n  background-color: white;\r\n  color: white;\r\n  content: \" \";\r\n  display: block;\r\n  border-radius: 50%;\r\n  border: 1px solid grey;\r\n  position: absolute;\r\n  top: -5px;\r\n  left: -5px;\r\n  width: 25px;\r\n  height: 25px;\r\n  text-align: center;\r\n  line-height: 28px;\r\n  transition-duration: 0.4s;\r\n  transform: scale(0);\n}\nlabel img[data-v-00a19292] {\r\n  height: 100px;\r\n  width: 100px;\r\n  transition-duration: 0.2s;\r\n  transform-origin: 50% 50%;\n}\n:checked + label[data-v-00a19292] {\r\n  border-color: #ddd;\n}\n:checked + label[data-v-00a19292]:before {\r\n  content: \"\\2713\";\r\n  background-color: grey;\r\n  transform: scale(1);\n}\n:checked + label img[data-v-00a19292] {\r\n  transform: scale(0.9);\r\n  /* box-shadow: 0 0 5px #333; */\r\n  z-index: -1;\n}\r\n", ""]);
+exports.push([module.i, "\nul[data-v-00a19292] {\r\n  list-style-type: none;\n}\n.image_class[data-v-00a19292]{\r\n  display: inline-block;\n}\ninput[type=\"checkbox\"][id^=\"_myCheckbox\"][data-v-00a19292] {\r\n  display: none;\n}\r\n\r\n/* input+div{display:none;}\r\n\r\ninput:hover+div{\r\n   display:inline;\r\n   } */\nlabel[data-v-00a19292] {\r\n  border: 1px solid #fff;\r\n  padding: 10px;\r\n  display: block;\r\n  position: relative;\r\n  margin: 10px;\r\n  cursor: pointer;\n}\nlabel[data-v-00a19292]:before {\r\n  background-color: white;\r\n  color: white;\r\n  content: \" \";\r\n  display: block;\r\n  border-radius: 50%;\r\n  border: 1px solid grey;\r\n  position: absolute;\r\n  top: -5px;\r\n  left: -5px;\r\n  width: 25px;\r\n  height: 25px;\r\n  text-align: center;\r\n  line-height: 28px;\r\n  transition-duration: 0.4s;\r\n  transform: scale(0);\n}\nlabel img[data-v-00a19292] {\r\n  height: 100px;\r\n  width: 100px;\r\n  transition-duration: 0.2s;\r\n  transform-origin: 50% 50%;\n}\n:checked + label[data-v-00a19292] {\r\n  border-color: #ddd;\n}\n:checked + label[data-v-00a19292]:before {\r\n  content: \"\\2713\";\r\n  background-color: grey;\r\n  transform: scale(1);\n}\n:checked + label img[data-v-00a19292] {\r\n  transform: scale(0.9);\r\n  /* box-shadow: 0 0 5px #333; */\r\n  z-index: -1;\n}\r\n", ""]);
 
 // exports
 
@@ -51204,58 +51197,14 @@ var render = function() {
               [
                 _c("br"),
                 _vm._v(" "),
-                _vm._m(0),
-                _vm._v(" "),
                 _vm._l(_vm.galleries, function(image, index) {
                   return _c("li", { key: index, staticClass: "image_class" }, [
                     _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.imageData.images,
-                          expression: "imageData.images"
-                        }
-                      ],
-                      attrs: { type: "checkbox", id: "'myCheckbox_0'+index" },
-                      domProps: {
-                        value: image.id,
-                        checked: Array.isArray(_vm.imageData.images)
-                          ? _vm._i(_vm.imageData.images, image.id) > -1
-                          : _vm.imageData.images
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.imageData.images,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = image.id,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(
-                                  _vm.imageData,
-                                  "images",
-                                  $$a.concat([$$v])
-                                )
-                            } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  _vm.imageData,
-                                  "images",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
-                            }
-                          } else {
-                            _vm.$set(_vm.imageData, "images", $$c)
-                          }
-                        }
-                      }
+                      attrs: { type: "checkbox", id: "'myCheckbox_0'+index" }
                     }),
                     _vm._v(" "),
                     _c("label", { attrs: { for: "'myCheckbox'+ index" } }, [
-                      _c("img", { attrs: { src: image.small, alt: "" } })
+                      _c("img", { attrs: { src: image.medium, alt: "" } })
                     ])
                   ])
                 })
@@ -51288,7 +51237,7 @@ var render = function() {
               "div",
               { staticClass: "modal-content", staticStyle: { width: "130%" } },
               [
-                _vm._m(1),
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "form",
@@ -51329,7 +51278,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(2)
+                    _vm._m(1)
                   ]
                 )
               ]
@@ -51341,12 +51290,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "" } }, [_c("b", [_vm._v("Small")])])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -52011,7 +51954,7 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "modal-body" }, [
-                      _c("div", { staticClass: "r;ow" }, [
+                      _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _vm._m(2),
                           _vm._v(" "),
@@ -53043,7 +52986,13 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(product.category_id))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(product.preview_image))]),
+                        _c("td", [
+                          _c("a", { staticClass: "image_class" }, [
+                            _c("img", {
+                              attrs: { src: product.preview_image, alt: "" }
+                            })
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c("td", [
                           _c("div", { staticClass: "form-group" }, [
@@ -53108,25 +53057,18 @@ var render = function() {
                                 },
                                 [
                                   _c(
-                                    "button",
+                                    "a",
                                     {
-                                      staticClass: "dropdown-item",
-                                      attrs: { type: "button" }
+                                      staticClass:
+                                        "dropdown-item btn btn-primary",
+                                      attrs: {
+                                        href:
+                                          _vm.baseUrl +
+                                          "admin/product/" +
+                                          product.id
+                                      }
                                     },
-                                    [
-                                      _c(
-                                        "a",
-                                        {
-                                          attrs: {
-                                            href:
-                                              _vm.baseUrl +
-                                              "admin/product/" +
-                                              product.id
-                                          }
-                                        },
-                                        [_vm._v("Product Management")]
-                                      )
-                                    ]
+                                    [_vm._v("Product Management")]
                                   )
                                 ]
                               )
@@ -53744,8 +53686,8 @@ var render = function() {
                                 expression: "store.description"
                               }
                             ],
-                            staticClass: "tiny-mce",
-                            attrs: { name: "", id: "desc" },
+                            staticClass: "form-control",
+                            attrs: { id: "desc", rows: "15", cols: "5" },
                             domProps: { value: _vm.store.description },
                             on: {
                               input: function($event) {
@@ -53760,13 +53702,11 @@ var render = function() {
                               }
                             }
                           })
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(10)
+                        ])
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(11)
+                    _vm._m(10)
                   ]
                 )
               ]
@@ -53797,37 +53737,37 @@ var render = function() {
               "div",
               { staticClass: "modal-content", staticStyle: { width: "130%" } },
               [
-                _vm._m(12),
+                _vm._m(11),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(13),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.name))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(14),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.slug))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(15),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.category_id))])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
-                      _vm._m(16),
+                      _vm._m(15),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.show.previewImage))])
                     ])
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(17)
+                _vm._m(16)
               ]
             )
           ]
@@ -53856,7 +53796,7 @@ var render = function() {
               "div",
               { staticClass: "modal-content", staticStyle: { width: "130%" } },
               [
-                _vm._m(18),
+                _vm._m(17),
                 _vm._v(" "),
                 _c(
                   "form",
@@ -53873,7 +53813,7 @@ var render = function() {
                     _c("div", { staticClass: "modal-body" }, [
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(19),
+                          _vm._m(18),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -53899,7 +53839,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(20),
+                          _vm._m(19),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -53925,7 +53865,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(21),
+                          _vm._m(20),
                           _vm._v(" "),
                           _c(
                             "select",
@@ -53980,7 +53920,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(22)
+                    _vm._m(21)
                   ]
                 )
               ]
@@ -54114,24 +54054,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "" } }, [
-      _c("b", [_vm._v("Description")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("br"),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "" } }, [
-        _c("b", [_vm._v("Choose Featured Image")])
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "file", id: "featured" }
-      })
+      _c("b", [_vm._v("Description:")])
     ])
   },
   function() {
@@ -54449,7 +54372,10 @@ var render = function() {
                         "div",
                         { staticClass: "row" },
                         [
-                          _vm._l(_vm.allVar, function(variants, index) {
+                          _vm._l(_vm.ProductVariationWithOption, function(
+                            variants,
+                            index
+                          ) {
                             return _c(
                               "div",
                               { key: index + 1, staticClass: "col-md-12" },
@@ -54457,8 +54383,6 @@ var render = function() {
                                 _c("label", { attrs: { for: "" } }, [
                                   _vm._v(_vm._s(variants.name) + ":")
                                 ]),
-                                _vm._v(" "),
-                                _c("br"),
                                 _vm._v(" "),
                                 _vm._l(
                                   variants.product_variation_options,
@@ -54553,9 +54477,7 @@ var render = function() {
                                               [_vm._v(_vm._s(option.name))]
                                             )
                                           ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("br")
+                                        )
                                       ]
                                     )
                                   }
@@ -54702,217 +54624,186 @@ var render = function() {
                     },
                     [
                       _c("div", { staticClass: "row" }, [
-                        _c(
-                          "div",
-                          { staticClass: "col-md-12" },
-                          [
-                            _vm._l(_vm.allVar, function(variants, index) {
-                              return _c(
-                                "div",
-                                { key: index + 1, staticClass: "col-md-4" },
-                                [
-                                  _c("label", { attrs: { for: "" } }, [
-                                    _vm._v(_vm._s(variants.name) + ":")
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm._l(
-                                    variants.product_variation_options,
-                                    function(option, index) {
-                                      return _c(
-                                        "div",
-                                        {
-                                          key: index + 1,
-                                          staticClass:
-                                            "col-md-8 form-check form-check-inline"
-                                        },
-                                        [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.imageData.option,
-                                                expression: "imageData.option"
-                                              }
-                                            ],
-                                            staticClass: "form-check-input",
-                                            attrs: {
-                                              type: "checkbox",
-                                              id: "variants_" + index + option
-                                            },
-                                            domProps: {
-                                              value: option.id,
-                                              checked: Array.isArray(
-                                                _vm.imageData.option
-                                              )
-                                                ? _vm._i(
-                                                    _vm.imageData.option,
-                                                    option.id
-                                                  ) > -1
-                                                : _vm.imageData.option
-                                            },
-                                            on: {
-                                              change: function($event) {
-                                                var $$a = _vm.imageData.option,
-                                                  $$el = $event.target,
-                                                  $$c = $$el.checked
-                                                    ? true
-                                                    : false
-                                                if (Array.isArray($$a)) {
-                                                  var $$v = option.id,
-                                                    $$i = _vm._i($$a, $$v)
-                                                  if ($$el.checked) {
-                                                    $$i < 0 &&
-                                                      _vm.$set(
-                                                        _vm.imageData,
-                                                        "option",
-                                                        $$a.concat([$$v])
-                                                      )
-                                                  } else {
-                                                    $$i > -1 &&
-                                                      _vm.$set(
-                                                        _vm.imageData,
-                                                        "option",
-                                                        $$a
-                                                          .slice(0, $$i)
-                                                          .concat(
-                                                            $$a.slice($$i + 1)
-                                                          )
-                                                      )
-                                                  }
-                                                } else {
-                                                  _vm.$set(
-                                                    _vm.imageData,
-                                                    "option",
-                                                    $$c
-                                                  )
-                                                }
-                                              }
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c(
-                                            "label",
-                                            {
-                                              attrs: {
-                                                for:
-                                                  "variants_" + index + option
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "span",
-                                                {
-                                                  staticClass:
-                                                    "badge badge-pill badge-primary"
-                                                },
-                                                [_vm._v(_vm._s(option.name))]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("br")
-                                        ]
-                                      )
-                                    }
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.imageData.option,
+                                  expression: "imageData.option"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { name: "", id: "" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.imageData,
+                                    "option",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
                                   )
-                                ],
-                                2
-                              )
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "ul",
-                              [
-                                _c("br"),
-                                _vm._v(" "),
-                                _vm._l(_vm.galleries, function(image, index) {
-                                  return _c(
-                                    "li",
-                                    { key: index, staticClass: "image_class" },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.imageData.images,
-                                            expression: "imageData.images"
-                                          }
-                                        ],
-                                        attrs: {
-                                          type: "checkbox",
-                                          id: "'myCheckbox_0'+index"
-                                        },
-                                        domProps: {
-                                          value: image.id,
-                                          checked: Array.isArray(
-                                            _vm.imageData.images
-                                          )
-                                            ? _vm._i(
-                                                _vm.imageData.images,
-                                                image.id
-                                              ) > -1
-                                            : _vm.imageData.images
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.imageData.images,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = image.id,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  _vm.$set(
-                                                    _vm.imageData,
-                                                    "images",
-                                                    $$a.concat([$$v])
-                                                  )
-                                              } else {
-                                                $$i > -1 &&
-                                                  _vm.$set(
-                                                    _vm.imageData,
-                                                    "images",
-                                                    $$a
-                                                      .slice(0, $$i)
-                                                      .concat(
-                                                        $$a.slice($$i + 1)
-                                                      )
-                                                  )
-                                              }
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Select the variation option")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.allVar, function(option, index) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index,
+                                    domProps: { value: option.id }
+                                  },
+                                  [_vm._v(_vm._s(option.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "ul",
+                            [
+                              _c("br"),
+                              _vm._v(" "),
+                              _vm._l(_vm.galleries, function(image, index) {
+                                return _c(
+                                  "li",
+                                  { key: index, staticClass: "image_class" },
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.imageData.images,
+                                          expression: "imageData.images"
+                                        }
+                                      ],
+                                      attrs: {
+                                        type: "checkbox",
+                                        id: "'_myCheckbox'+index"
+                                      },
+                                      domProps: {
+                                        value: image.id,
+                                        checked: Array.isArray(
+                                          _vm.imageData.images
+                                        )
+                                          ? _vm._i(
+                                              _vm.imageData.images,
+                                              image.id
+                                            ) > -1
+                                          : _vm.imageData.images
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          var $$a = _vm.imageData.images,
+                                            $$el = $event.target,
+                                            $$c = $$el.checked ? true : false
+                                          if (Array.isArray($$a)) {
+                                            var $$v = image.id,
+                                              $$i = _vm._i($$a, $$v)
+                                            if ($$el.checked) {
+                                              $$i < 0 &&
+                                                _vm.$set(
+                                                  _vm.imageData,
+                                                  "images",
+                                                  $$a.concat([$$v])
+                                                )
                                             } else {
-                                              _vm.$set(
-                                                _vm.imageData,
-                                                "images",
-                                                $$c
-                                              )
+                                              $$i > -1 &&
+                                                _vm.$set(
+                                                  _vm.imageData,
+                                                  "images",
+                                                  $$a
+                                                    .slice(0, $$i)
+                                                    .concat($$a.slice($$i + 1))
+                                                )
                                             }
+                                          } else {
+                                            _vm.$set(
+                                              _vm.imageData,
+                                              "images",
+                                              $$c
+                                            )
                                           }
                                         }
-                                      }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "label",
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
                                         {
-                                          attrs: { for: "'myCheckbox'+ index" }
-                                        },
-                                        [
-                                          _c("img", {
-                                            attrs: { src: image.small, alt: "" }
-                                          })
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                })
-                              ],
-                              2
-                            )
-                          ],
-                          2
-                        ),
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.imageData.preview_image,
+                                          expression: "imageData.preview_image"
+                                        }
+                                      ],
+                                      attrs: {
+                                        type: "radio",
+                                        id: "preview_image",
+                                        checked: ""
+                                      },
+                                      domProps: {
+                                        value: image.id,
+                                        checked: _vm._q(
+                                          _vm.imageData.preview_image,
+                                          image.id
+                                        )
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.$set(
+                                            _vm.imageData,
+                                            "preview_image",
+                                            image.id
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "preview_image" } },
+                                      [_vm._v("Select as Featured Image")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "'_myCheckbox'+index" } },
+                                      [
+                                        _c("img", {
+                                          attrs: { src: image.small, alt: "" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
                         _vm._v(" "),
                         _vm._m(5)
                       ])
@@ -72093,8 +71984,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/admin/gallery/all";
       this.$http.post(URL).then(function (resp) {
-        _this11.galleries = resp.data.galleries;
-        console.log(_this11.galleries);
+        _this11.galleries = resp.data.galleries; // console.log(this.galleries);
       })["catch"](function (errors) {
         console.log(errors);
       });

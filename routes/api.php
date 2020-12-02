@@ -42,7 +42,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/get-var','API\Product\VariationOptionController@getVar')->name('admin.get-var');
 
 
-    Route::get('/gallery/index','API\GalleryController@index')->name('admin.gallery.index');
+    Route::post('/gallery/index','API\GalleryController@index')->name('admin.gallery.index');
     Route::post('/gallery/store','API\GalleryController@store')->name('admin.gallery.store');
     // Route::post('/variation/option/update','API\Product\VariationOptionController@update')->name('admin.variation.option.update');
     Route::post('/gallery/all','API\GalleryController@getAll')->name('admin.gallery.all');

@@ -107,7 +107,7 @@
                </div>
             <form action="" method="Post" @submit.prevent="createPermission(store)">
                <div class="modal-body">
-                  <div class="r;ow">
+                  <div class="row">
                      <div class="col-md-12">
                         <label for=""><b>Name:</b></label>
                         <input type="text" v-model="store.name" id="name1" class="form-control">
@@ -124,7 +124,7 @@
                             <option v-for="(menu,index) in permissionMenu" :key="index" :value="index">{{menu}}</option>
                         </select>
                      </div>
-      
+
                      <div class="col-md-12">
                         <label for=""><b>Type:</b></label>
                         <select name="" id="type" class="form-control" v-model="store.type">
@@ -311,6 +311,7 @@ export default {
         this.store.slug=store.slug;
         this.store.parent_id=store.parent_id;
         this.store.type=store.type;
+        console.log(store);
         this.$http.post(STORE_URL,this.store)
           .then(response=>{
                 this.closeModal("#createModal");

@@ -10,10 +10,9 @@
                <div class="col-md-12">
                   <ul>
                      <br>
-                     <label for=""><b>Small</b></label>
                      <li class="image_class" v-for="(image,index) in galleries" :key="index">
-                        <input type="checkbox" id="'myCheckbox_0'+index" v-model="imageData.images" :value="image.id"/>
-                        <label for="'myCheckbox'+ index"><img :src="image.small" alt="" />
+                        <input type="checkbox" id="'myCheckbox_0'+index"/>
+                        <label for="'myCheckbox'+ index"><img :src="image.medium" alt="" />
                         </label>
                      </li>
                   </ul>
@@ -66,13 +65,7 @@ export default {
     mixins: [mixin],
     data(){
         return{
-            columns:[
-            {label: 'SL', name: '' },
-            {label: 'Small', name: 'small' },
-            {label: 'Medium', name: 'medium'},
-            {label: 'Large', name: 'large'},
-        ],
-        show:[],
+        galleries:[],
         store:{
             files:[],
         },
@@ -80,15 +73,12 @@ export default {
             edit:'',
             delete:'',
             create:''
-    },
+         },
         }
     },
 
     methods: {
-      getGalleryData() {
-        this.getData(INDEX_URL);
-      },
-
+      
         handleFilesUploads(){
             this.files = this.$refs.files.files;
         },
@@ -115,7 +105,7 @@ export default {
     },
 
     created(){
-        this.getGalleryData();
+
     }
 
 };
@@ -123,16 +113,66 @@ export default {
 
 
 <style scoped>
-td li{
-   list-style :none;
+
+ul {
+  list-style-type: none;
 }
 
-li{
-   list-style: none;
+.image_class{
+  display: inline-block;
 }
 
-.list_image{
-    width:30px;
-    height: 30px;
+input[type="checkbox"][id^="myCheckbox"] {
+  display: none;
+}
+
+label {
+  border: 1px solid #fff;
+  padding: 10px;
+  display: block;
+  position: relative;
+  margin: 10px;
+  cursor: pointer;
+}
+
+label:before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid grey;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+label img {
+  height: 100px;
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+}
+
+:checked + label {
+  border-color: #ddd;
+}
+
+:checked + label:before {
+  content: "✓";
+  background-color: grey;
+  transform: scale(1);
+}
+
+:checked + label img {
+  transform: scale(0.9);
+  /* box-shadow: 0 0 5px #333; */
+  z-index: -1;
 }
 </style>

@@ -46,6 +46,7 @@ class ProductController extends Controller
         $product=new $this->product;
         $product->name=$request->input('name');
         $product->slug=$request->input('slug');
+        $product->description=$this->tinyText($request,'description');
         $product->category_id=$request->input('category_id');
         $product->save();
         return response()->json('successfully saved',200);            

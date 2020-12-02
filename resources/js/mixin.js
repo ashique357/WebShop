@@ -249,7 +249,7 @@ export default{
             this.$http.post(URL)
             .then(resp=>{
                 this.galleries=resp.data.galleries;
-                console.log(this.galleries);
+                // console.log(this.galleries);
             })
             .catch(errors=>{
                 console.log(errors);

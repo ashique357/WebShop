@@ -67,17 +67,18 @@ trait HelperTraits {
       }
   }
 
-    public function fileUpload(Request $request,$fname){
-        $toStorage="/uploads/images";
-        if($request->hasFile($fname)){   
-            foreach($request->file($fname) as $file){
-                $name = mt_rand(100,2000).time().'.'.$file->extension();
+    public function imagesUpload($storage,$fname){
+        $toStorage=$storage;
+        if(request()->hasFile($fname)){   
+            foreach(request()->file($fname) as $file){
+                $name = $toStorage.'gallery_'.'_'.mt_rand(100,2000).time().'.'.$file->extension();
                 $file->move(public_path().$toStorage, $name); 
                 $data[] = $name; 
             }
             return $data;
          }
     }
+
 
     public function dynamicUpload($fname){
         $toStorage="/uploads/images";

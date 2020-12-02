@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
-use App\Traits\HelperTraits;
+use App\HTTP\Traits\HelperTraits;
+// use Intervention\Image\ImageManager as Image;
+use Image;
 
 class GalleryController extends Controller
 {
-    // use HelperTraits;
+    use HelperTraits;
     protected $gallery;
     public function __construct(Gallery $gallery){
         $this->gallery=$gallery;
@@ -17,42 +19,41 @@ class GalleryController extends Controller
 
     
     public function index(Request $request){
-        if ( $request->input('showdata') ) {
-            return $this->gallery->latest()->get();
-            }
-            $columns = ['small', 'medium','large'];
-            $length = $request->input('length');
-            $column = $request->input('column');
-            $search_input = $request->input('search');
-            $query = $this->gallery->select('small', 'medium','large')->orderBy($column);
-            if ($search_input) {
-                $query->where(function($query) use ($search_input) {
-                $query->where('small', 'like', '%' . $search_input . '%')
-                ->orWhere('medium', 'like', '%' . $search_input . '%')
-                ->orWhere('large', 'like', '%' . $search_input . '%');
-                });
-                }
-            $galleries = $query->paginate($length);
-            return ['data' => $galleries];            
+            $galleries = $this->gallery->latest()->get();
+            return response()->json(['galleries'=>$galleries]);            
     }
 
     public function store(Request $request){
         $fname="files";
-        $toStorage="/products/images";
+        $toStorage="products/images/";
         if($request->hasFile($fname)){   
             foreach($request->file($fname) as $file){
-                $name = mt_rand(100,2000).time().'.'.$file->extension();
-                $file->move(public_path().$toStorage, $name); 
+                $filePath=public_path('products/images/');
+                $name ='gallery_'.'_'.mt_rand(100,2000).time().'.'.$file->extension();
+                $resize1=Image::make($file);
+                $small=$resize1->resize(200,200)->save($filePath.'small_'.$name);
+                $small=$small->basename;
+                
+                $resize2=Image::make($file);
+                $medium=$resize2->resize(800,800)->save($filePath.'medium_'.$name);
+                $medium=$medium->basename;
+
+                $resize3=Image::make($file);
+                $large=$resize3->resize(1024,1024)->save($filePath.'large_'.$name);
+                $large=$large->basename;
                 
                 $gallery=new $this->gallery;
-                $gallery->small=$toStorage.'/'.$name;
-                $gallery->medium=$toStorage.'/'.$name;
-                $gallery->large=$toStorage.'/'.$name;
                 
+                $gallery->small='/'.$toStorage.$small;
+                $gallery->medium='/'.$toStorage.$medium;
+                $gallery->large='/'.$toStorage.$large;
+
                 $gallery->save();
             }
+            return response()->json('success',200);
          }
-    }
+        }
+
 
     public function getAll(Request $request){
         if($request){
@@ -60,5 +61,4 @@ class GalleryController extends Controller
             return response()->json(['success'=>200,'galleries'=>$galleries]);
         }
     }
-
 }

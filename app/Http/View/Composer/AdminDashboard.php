@@ -45,7 +45,7 @@ class AdminDashboard{
             if(is_array($groupMenu) && count($groupMenu) > 0){
                 $menus[]['childs']=[
                     'menu'=>$groupMenu,
-                    'name'=>$this->getParentName($groupMenu[$groupName]['parent_id']),
+                    'name'=>$this->getParentName($groupMenu[0]['parent_id']),
                 ];
             }                       
         }

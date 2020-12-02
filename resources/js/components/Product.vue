@@ -54,7 +54,7 @@
                            <td v-text="product.name"></td>
                            <td>{{product.slug}}</td>
                            <td>{{product.category_id}}</td>
-                           <td>{{product.preview_image}}</td>
+                           <td><a class="image_class"><img :src="product.preview_image" alt="" /></a></td>
                            <td>
                               <div class="form-group">
                                  <a class="btn btn-sm btn-primary" title="View" @click="showModal('#showModal',product)"><i class="fas fa-eye"></i></a>
@@ -65,7 +65,7 @@
                                  Product Management
                                  </button>
                                  <a class="dropdown-menu" aria-labelledby="'dropdownMenu'+ index+1">
-                                 <button class="dropdown-item" type="button"><a :href="baseUrl+'admin/product/'+product.id">Product Management</a></button>
+                                 <a class="dropdown-item btn btn-primary" :href="baseUrl+'admin/product/'+product.id">Product Management</a>
                                  </a>
                                  </a>
                               </div>
@@ -173,13 +173,8 @@
                            </select>
                         </div>
                         <div class="col-md-12">
-                           <label for=""><b>Description</b></label>
-                           <textarea  class="tiny-mce" name="" id="desc" v-model="store.description"></textarea>
-                        </div>
-                        <div class="col-md-12">
-                           <br>
-                           <label for=""><b>Choose Featured Image</b></label>
-                           <input type="file"  id="featured" class="form-control">
+                           <label for=""><b>Description:</b></label>
+                           <textarea  class="form-control" id="desc" v-model="store.description" rows="15" cols="5"></textarea>
                         </div>
                      </div>
                   </div>
@@ -307,7 +302,6 @@ export default {
            name:'',
            slug:'',
            category_id:'',
-           preview_image:'',
            description:'',
         },
         variationOptions:[],
@@ -336,22 +330,22 @@ export default {
         this.store.name=store.name;
         this.store.slug=store.slug;
         this.store.category_id=store.category_id;
-      //   this.store.preview_image=store.preview_image;
         this.store.description=store.description;
-        this.$http.post(STORE_URL,this.store)
-          .then(response=>{
-                this.closeModal("#createModal");
-                this.successSweetAlert();
-                this.SuccessToaster();
-                this.reload();
-            })
-            .catch(error=>{
-                console.log(error.message);
-                this.closeModal("#createModal");
-                this.failedSweetAlert();
-                this.FailedToaster();
-                this.reload();
-            })
+        console.log(store);
+      //   this.$http.post(STORE_URL,this.store)
+      //     .then(response=>{
+      //           this.closeModal("#createModal");
+      //           this.successSweetAlert();
+      //           this.SuccessToaster();
+      //          //  this.reload();
+      //       })
+      //       .catch(error=>{
+      //           console.log(error.message);
+      //           this.closeModal("#createModal");
+      //           this.failedSweetAlert();
+      //           this.FailedToaster();
+      //          //  this.reload();
+      //       })
       },
 
          getVar(){
@@ -386,5 +380,9 @@ td li{
 
 li{
    list-style: none;
+}
+.image_class img{
+   height:100px;
+   width:100px;
 }
 </style>
