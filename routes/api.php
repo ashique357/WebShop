@@ -26,8 +26,6 @@ Route::prefix('admin')->group(function () {
 
     Route::post('/get-all-categories','API\CategoryController@getAllCategories')->name('admin.get-all-categories');
 
-
-
     Route::get('/variation/index','API\Product\VariationController@index')->name('admin.variation.index');
     Route::post('/variation/store','API\Product\VariationController@store')->name('admin.variation.store');
     Route::post('/variation/update','API\Product\VariationController@update')->name('admin.variation.update');
@@ -38,9 +36,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/variation/option/update','API\Product\VariationOptionController@update')->name('admin.variation.option.update');
     Route::post('/get-all-variation-options','API\Product\VariationOptionController@getAllVariationOption')->name('admin.get-all-variations-option');
  
-
     Route::get('/get-var','API\Product\VariationOptionController@getVar')->name('admin.get-var');
-
 
     Route::post('/gallery/index','API\GalleryController@index')->name('admin.gallery.index');
     Route::post('/gallery/store','API\GalleryController@store')->name('admin.gallery.store');
@@ -59,4 +55,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/product/variation/option/all','API\Product\ProductVariationController@getProdVar')->name('admin.product.var.opt.get-all');
     
     Route::post('/product/image/store','API\Product\ProductVariationController@soreProdImg')->name('admin.product.var.image.get-all');
+});
+
+
+Route::prefix('frontend')->group(function () {
+    Route::post('/products','API\Frontend\ProductController@getAll');
+    Route::post('/products/featured','API\Frontend\ProductController@getByFeature');
+    Route::post('/products/top-sell','API\Frontend\ProductController@getByTopSell');
+    Route::post('/product-by-id','API\Frontend\ProductController@getById');
 });

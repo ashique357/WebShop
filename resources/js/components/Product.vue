@@ -172,9 +172,55 @@
                               <option v-for="(ca,index) in categories" :key="index" :value="index">{{ca}}</option>
                            </select>
                         </div>
+
+                        <div class="col-md-12">
+                           <label for=""><b>Price:</b></label>
+                           <input type="text" v-model="store.price" id="Slug" class="form-control">
+                        </div>
+
+                        <div class="col-md-12">
+                           <label for=""><b>Discount Price:</b>(if any)</label>
+                           <input type="text" v-model="store.discount_price" id="dp" class="form-control">
+                        </div>
+                        
+                        <div class="col-md-12">
+                           <label for=""><b>Product's summary:</b></label>
+                           <textarea  class="form-control" id="desc" v-model="store.summary" rows="15" cols="5"></textarea>
+                        </div>
+                        
                         <div class="col-md-12">
                            <label for=""><b>Description:</b></label>
                            <textarea  class="form-control" id="desc" v-model="store.description" rows="15" cols="5"></textarea>
+                        </div>
+                        <div class="col-md-12">
+                           <label for="">Featured?</label>
+                           <select name="" id="" class="form-control" v-model="store.is_featured">
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                           </select>
+                        </div>
+                        <div class="col-md-12">
+                           <label for="">Top Seller?</label>
+                           <select name="" id="" class="form-control" v-model="store.is_top_seller">
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                           </select>
+                        </div>
+
+                        <div class="col-md-12">
+                           <label for="">New Product?</label>
+                           <select name="" id="" class="form-control" v-model="store.is_new">
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                           </select>
+                        </div>
+
+                        <div class="col-md-12">
+                           <label for="">Status</label>
+                           <select name="" id="" class="form-control" v-model="store.status">
+                              <option value="1">Enable</option>
+                              <option value="0">Disable</option>
+                           </select>
                         </div>
                      </div>
                   </div>
@@ -258,6 +304,56 @@
                               <option v-for="(ca,index) in categories" :key="index" :value="index">{{ca}}</option>
                            </select>
                         </div>
+
+                        <div class="col-md-12">
+                           <label for=""><b>Price:</b></label>
+                           <input type="text" v-model="show.price" id="Slug" class="form-control">
+                        </div>
+
+                        <div class="col-md-12">
+                           <label for=""><b>Discount Price:</b>(if any)</label>
+                           <input type="text" v-model="show.discount_price" id="dp" class="form-control">
+                        </div>
+                        
+                        <div class="col-md-12">
+                           <label for=""><b>Product's summary:</b></label>
+                           <textarea  class="form-control" id="desc" v-model="show.summary" rows="15" cols="5"></textarea>
+                        </div>
+                        
+                        <div class="col-md-12">
+                           <label for=""><b>Description:</b></label>
+                           <textarea  class="form-control" id="desc" v-model="show.description" rows="15" cols="5"></textarea>
+                        </div>
+                        <div class="col-md-12">
+                           <label for="">Featured?</label>
+                           <select name="" id="" class="form-control" v-model="show.is_featured">
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                           </select>
+                        </div>
+                        <div class="col-md-12">
+                           <label for="">Top Seller?</label>
+                           <select name="" id="" class="form-control" v-model="show.is_top_seller">
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                           </select>
+                        </div>
+
+                        <div class="col-md-12">
+                           <label for="">New Product?</label>
+                           <select name="" id="" class="form-control" v-model="show.is_new">
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                           </select>
+                        </div>
+
+                        <div class="col-md-12">
+                           <label for="">Status</label>
+                           <select name="" id="" class="form-control" v-model="show.status">
+                              <option value="1">Enable</option>
+                              <option value="0">Disable</option>
+                           </select>
+                        </div>
                      </div>
                   </div>
                   <div class="modal-footer">
@@ -303,6 +399,13 @@ export default {
            slug:'',
            category_id:'',
            description:'',
+           is_featured:'',
+           is_top_seller:'',
+           status:'',
+           price:'',
+           is_new:'',
+           discount_price:'',
+           summary:'',
         },
         variationOptions:[],
 
@@ -331,21 +434,28 @@ export default {
         this.store.slug=store.slug;
         this.store.category_id=store.category_id;
         this.store.description=store.description;
+        this.store.price=store.price;
+        this.store.discount_price=store.discount_price;
+        this.store.summary=store.summary;
+        this.store.is_featured=store.is_featured;
+        this.store.is_top_seller=store.is_top_seller;
+        this.store.status=store.status;
+        this.store.is_new=store.is_new;
         console.log(store);
-      //   this.$http.post(STORE_URL,this.store)
-      //     .then(response=>{
-      //           this.closeModal("#createModal");
-      //           this.successSweetAlert();
-      //           this.SuccessToaster();
-      //          //  this.reload();
-      //       })
-      //       .catch(error=>{
-      //           console.log(error.message);
-      //           this.closeModal("#createModal");
-      //           this.failedSweetAlert();
-      //           this.FailedToaster();
-      //          //  this.reload();
-      //       })
+        this.$http.post(STORE_URL,this.store)
+          .then(response=>{
+                this.closeModal("#createModal");
+                this.successSweetAlert();
+                this.SuccessToaster();
+                this.reload();
+            })
+            .catch(error=>{
+                console.log(error.message);
+                this.closeModal("#createModal");
+                this.failedSweetAlert();
+                this.FailedToaster();
+                this.reload();
+            })
       },
 
          getVar(){

@@ -58,6 +58,11 @@
                               <label for="">Price</label>
                               <input type="text" name="" id="" class="form-control" v-model="stock.price">
                            </div>
+
+                           <div class="col-md-12">
+                              <label for="">Discount Price</label>
+                              <input type="text" name="" id="" class="form-control" v-model="stock.discount_price">
+                           </div>
                            <div class="col-md-12">
                               <label for="">Total Quantity</label>
                               <input type="text" name="" id="" class="form-control" v-model="stock.quantity">
@@ -180,6 +185,7 @@ export default {
               price:'',
               option:[],
               quantity:'',
+              discount_price:'',
               product_id:this.product.id,
           },
 
@@ -212,6 +218,7 @@ export default {
              this.stock.option=stock.option;
              this.stock.quantity=stock.quantity;
              this.stock.product_id;
+             this.stock.discount_price=stock.discount_price;
              console.log(stock);
              this.$http.post(STOCK_URL,stock)
              .then(response=>{
@@ -252,10 +259,10 @@ export default {
              this.opt.prodVar_id=data.prodVar_id;
              this.$http.post(PRODUCT_VARIANT_OPTION_URL,data)
              .then(response=>{
-                 this.successSweetAlert();
-                    this.SuccessToaster();
-                    this.reload();
-                 console.log(response);
+                  this.successSweetAlert();
+                  this.SuccessToaster();
+                  this.reload();
+                  console.log(response);
              })
              .catch(errors=>{
                 this.failedSweetAlert();

@@ -18,7 +18,15 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->foreignId('category_id')->constrained('categories');
+            $table->float('price');
+            $table->float('discount_price')->nullable();
+            $table->boolean('is_featured')->default(0);
+            $table->boolean('is_top_seller')->default(0);
+            $table->boolean('is_new')->default(0);
+            $table->longText('summary')->nullable();
+            $table->longText('description')->nullable();
             $table->string('preview_image')->nullable();
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

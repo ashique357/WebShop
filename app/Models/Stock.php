@@ -17,6 +17,6 @@ class Stock extends Model
     ];
 
     public function combination(){
-        return $this->belongsTo('App\Models\Combination','combination_id'); 
+        return $this->belongsTo('App\Models\Combination'); 
     }
 }

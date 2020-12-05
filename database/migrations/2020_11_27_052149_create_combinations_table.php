@@ -18,6 +18,7 @@ class CreateCombinationsTable extends Migration
             $table->string('combination_string');
             $table->string('sku');
             $table->float('price');
+            $table->float('discount_price');
             $table->string('unique_string');
             $table->integer('available_stock')->default(0);
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');

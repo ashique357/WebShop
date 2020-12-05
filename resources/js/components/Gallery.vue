@@ -93,9 +93,15 @@ export default {
             axios.post( STORE_URL,formData,{headers: {'Content-Type': 'multipart/form-data'}}
             ).then(function(resp){
             console.log(resp);
+            this.successSweetAlert();
+                this.SuccessToaster();
+                this.reload();
             })
             .catch(function(){
             console.log('FAILURE!!');
+            this.failedSweetAlert();
+                this.FailedToaster();
+                this.reload();
             });
         },
 

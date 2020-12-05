@@ -24,7 +24,7 @@ class AdminDashboard{
             return redirect()->guest('login'); 
         }
         else{
-
+ 
         $menuQuery=Permission::where('status',1)->with(['admins'=>function($query){
             $query->where('admin_id',Auth::guard('admin')->user()->id)->where('status',1);
         }])->select('name','slug','parent_id','status','has_child')->orderBy('id','ASC')->get()->toArray();

@@ -19,4 +19,8 @@ class Category extends Model
         $getId=Category::where('id','=',$value)->first();
         return $getId;
     }
+
+    public function products(){
+        return $this->hasMany('App\Models\Product','category_id') ;
+    }
 }

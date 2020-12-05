@@ -46,8 +46,15 @@ class ProductController extends Controller
         $product=new $this->product;
         $product->name=$request->input('name');
         $product->slug=$request->input('slug');
-        $product->description=$this->tinyText($request,'description');
+        $product->description=$request->description;
         $product->category_id=$request->input('category_id');
+        $product->price=$request->input('price');
+        $product->discount_price=$request->input('discount_price');
+        $product->is_featured=$request->input('is_featured');
+        $product->is_top_seller=$request->input('is_top_seller');
+        $product->status=$request->input('status');
+        $product->summary=$request->input('summary');
+        $product->is_new=$request->input('is_new');
         $product->save();
         return response()->json('successfully saved',200);            
     }
@@ -58,6 +65,13 @@ class ProductController extends Controller
             $product->name=$request->input('name');
             $product->slug=$request->input('slug');
             $product->category_id=$request->input('category_id');
+            $product->price=$request->input('price');
+            $product->discount_price=$request->input('discount_price');
+            $product->is_featured=$request->input('is_featured');
+            $product->is_top_seller=$request->input('is_top_seller');
+            $product->status=$request->input('status');
+            $product->summary=$request->input('summary');
+            $product->is_new=$request->input('is_new');
             $product->update();
             return response()->json('successfully updated',200);            
         }

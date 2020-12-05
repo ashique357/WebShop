@@ -30,6 +30,7 @@ class StockController extends Controller
             $sku=$request->input('sku');
             $price=$request->input('price');
             $quantity=$request->input('quantity');
+            $discount=$request->input('discount_price');
             $combination=$this->combination->with('stock')->where('unique_string',$unique_string)
                                                           ->where('product_id',$product_id)->first();
             if(!$combination){
@@ -39,8 +40,9 @@ class StockController extends Controller
                     'price'=>$price,
                     'unique_string'=>$unique_string,
                     'product_id'=>$product_id,
+                    'discount_price'=>$discount,
                 ]);
-
+                echo $combination;
                 $stock=$this->stock->where('combination_id',$create->id)->first();
                 if(!$stock){
                     $stock_create=$create->stock()->create([
@@ -62,7 +64,8 @@ class StockController extends Controller
             else{
                 $combination->update([
                     'sku'=>$sku,
-                    'price'=>$price,    
+                    'price'=>$price,
+                    'discount_price'=>$discount,    
                 ]);
                 $stock=$this->stock->where('combination_id',$combination->id)->first();
                 if(!$stock){
