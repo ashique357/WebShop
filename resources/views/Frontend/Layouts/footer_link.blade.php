@@ -4,11 +4,12 @@
 <script> window.token = '{{@csrf_token()}}';</script>
 <script> window.id = '';</script>
 
+
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/owl-carousel/owl.carousel.min.js"></script>
-<script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/gmap3.min.js"></script>
+<!-- <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/gmap3.min.js"></script> -->
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/imagesloaded.pkgd.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/isotope.pkgd.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
@@ -17,7 +18,6 @@
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/elevatezoom/jquery.elevatezoom.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB"></script><script type="text/javascript" src="plugins/revolution/js/jquery.themepunch.tools.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/revolution/js/jquery.themepunch.revolution.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/revolution/js/extensions/revolution.extension.video.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
@@ -28,3 +28,4 @@
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/plugins/revolution/js/extensions/revolution.extension.migration.min.js"></script>
 <script type="text/javascript" src="{{env('PUBLIC_PATH')}}/Frontend/js/main.js"></script>
+<script src="{{env('PUBLIC_PATH')}}/js/app.js" type="text/javascript"></script>

@@ -25,6 +25,10 @@ Route::prefix('admin')->middleware(['AdminAuthCheck'])->group(function () {
 
 });
 
+
+Route::get('/product/{slug}','ProductController@details')->name('product.details');
+
+
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('config:cache');
     $exitCode = Artisan::call('config:clear');

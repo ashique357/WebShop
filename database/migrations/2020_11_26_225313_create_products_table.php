@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('category_id')->constrained('categories');
             $table->float('price');
             $table->float('discount_price')->nullable();
+            $table->float('discount_rate')->nullable();
             $table->boolean('is_featured')->default(0);
             $table->boolean('is_top_seller')->default(0);
             $table->boolean('is_new')->default(0);

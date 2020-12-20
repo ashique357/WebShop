@@ -24,6 +24,14 @@
                               <input type="text" name="" id="" class="form-control" v-model="ProductVariant.name">
                            </div>
                            <div class="col-md-12">
+                              <label for="">Data type</label>
+                              <select name="" id="" class="form-control" v-model="ProductVariant.data_type">
+                                 <option>Select Data Type</option>
+                                 <option value="0">String</option>
+                                 <option value="1">Integer</option>
+                              </select>
+                           </div>
+                           <div class="col-md-12">
                               <br>
                               <div class="form-group">
                                  <button class="btn btn-primary">Submit</button>
@@ -191,6 +199,7 @@ export default {
 
           ProductVariant:{
               name:'',
+              data_type:'',
               product_id:this.product.id,
           },
 
@@ -238,6 +247,7 @@ export default {
          storeVariant(data){
              this.ProductVariant.name=data.name;
              this.ProductVariant.product_id;
+             this.ProductVariant.data_type=data.data_type;
              console.log(data);
              this.$http.post(PRODUCT_VARIANT_URL,data)
              .then(response=>{

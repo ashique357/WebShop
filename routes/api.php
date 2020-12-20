@@ -62,5 +62,5 @@ Route::prefix('frontend')->group(function () {
     Route::post('/products','API\Frontend\ProductController@getAll');
     Route::post('/products/featured','API\Frontend\ProductController@getByFeature');
     Route::post('/products/top-sell','API\Frontend\ProductController@getByTopSell');
-    Route::post('/product-by-id','API\Frontend\ProductController@getById');
+    Route::get('/products/product-by-id','API\Frontend\ProductController@getById');
 });

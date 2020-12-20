@@ -35,6 +35,11 @@ Vue.component('product', require('./components/Product.vue').default);
 
 Vue.component('product-management', require('./components/ProductManagement.vue').default);
 
+Vue.component('product-feature', require('./components/Frontend/Featured.vue').default);
+
+Vue.component('product-top-sell', require('./components/Frontend/TopSell.vue').default);
+
+Vue.component('product-details', require('./components/Frontend/ProductDetails.vue').default);
 
 Vue.directive('can', function (el, binding, vnode) {
   if(Laravel.permissions.indexOf(binding.value) !== -1){

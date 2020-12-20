@@ -14,4 +14,9 @@ class ProductController extends Controller
         $product=Product::findOrFail($id);
         return view('Backend.Pages.Product.show')->with('product',$product);
     }
+
+    public function details($slug){
+        $product=Product::where('slug',$slug)->firstOrFail();
+        return view('Frontend.Pages.ProductDetails')->with('product',$product);
+    }
 }

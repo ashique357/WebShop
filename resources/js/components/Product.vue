@@ -182,6 +182,11 @@
                            <label for=""><b>Discount Price:</b>(if any)</label>
                            <input type="text" v-model="store.discount_price" id="dp" class="form-control">
                         </div>
+
+                        <div class="col-md-12">
+                           <label for=""><b>Discount Rate:</b>(if any)</label>
+                           <input type="text" v-model="store.discount_rate" id="dp" class="form-control">
+                        </div>
                         
                         <div class="col-md-12">
                            <label for=""><b>Product's summary:</b></label>
@@ -311,9 +316,15 @@
                         </div>
 
                         <div class="col-md-12">
+                           <label for=""><b>Discount Rate:</b>(if any)</label>
+                           <input type="text" v-model="show.discount_rate" id="dp" class="form-control">
+                        </div>
+
+                        <div class="col-md-12">
                            <label for=""><b>Discount Price:</b>(if any)</label>
                            <input type="text" v-model="show.discount_price" id="dp" class="form-control">
                         </div>
+
                         
                         <div class="col-md-12">
                            <label for=""><b>Product's summary:</b></label>
@@ -404,6 +415,7 @@ export default {
            status:'',
            price:'',
            is_new:'',
+            discount_rate:'',
            discount_price:'',
            summary:'',
         },
@@ -435,6 +447,7 @@ export default {
         this.store.category_id=store.category_id;
         this.store.description=store.description;
         this.store.price=store.price;
+         this.store.discount_rate=store.discount_rate;
         this.store.discount_price=store.discount_price;
         this.store.summary=store.summary;
         this.store.is_featured=store.is_featured;
